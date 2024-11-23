@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Empréstimo - BookSpace</title>
+    <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Adicionar CSS do Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background-color: #e9ecef;
+        font-family: "Inter", sans-serif;
+        color: #343a40;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      }
+
+      .cadastro-box {
+        border-radius: 15px;
+        background-color: rgba(248, 249, 250, 0.8);
+        border: 2px solid rgba(1, 64, 128, 0.2);
+        padding: 30px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 500px;
+      }
+
+      h1 {
+        color: #343a40;
+        font-weight: 600;
+        font-size: 2rem;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .form-group label {
+        color: #343a40;
+        font-weight: 500;
+      }
+
+      .form-control {
+        border-radius: 25px;
+        border: 2px solid #ced4da;
+        background-color: #f8f9fa;
+        color: #495057;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        font-size: 1.1rem;
+        padding: 12px 30px;
+        border-radius: 25px;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+      }
+
+      .login-link a {
+        color: #007bff;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        color: #0056b3;
+        text-decoration: none;
+      }
+
+      .login-link {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      }
+
+      .alert {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="cadastro-box">
+        <h1>Cadastro de Empréstimo</h1>
+
+        <p
+          th:if="${error}"
+          th:text="${error}"
+          class="alert alert-danger"
+        ></p>
+
+        <form action="/emprestimos/cadastro" method="post" id="formCadastro">
+
+          <!-- Campo para Seleção de Cliente com pesquisa -->
+          <div class="form-group">
+            <label for="clienteId">Selecione o Cliente</label>
+            <select class="form-control" id="clienteId" name="clienteId" required>
+              <option value="" disabled selected>Escolha o Cliente</option>
+              <!-- Loop para exibir todos os clientes cadastrados -->
+              <th:block th:each="cliente : ${clientes}">
+                <option th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+              </th:block>
+            </select>
+          </div>
+
+          <!-- Campo para Seleção de Livro com pesquisa -->
+<div class="form-group">
+  <label for="livroId">Selecione o Livro</label>
+  <select class="form-control" id="livroId" name="livroId" required>
+    <option value="" disabled selected>Escolha o Livro</option>
+    <!-- Loop para exibir todos os livros cadastrados com status formatado ao lado do título -->
+    <th:block th:each="livro : ${livros}">
+      <option th:value="${livro.id}" 
+              th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}" />
+    </th:block>
+  </select>
+</div>
+
+
+
+
+          <!-- Campo para Data de Retirada -->
+          <div class="form-group">
+            <label for="dataRetirada">Data de Retirada</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dataRetirada"
+              name="dataRetirada"
+              required
+            />
+          </div>
+
+          <!-- Campo para Data Prevista de Devolução -->
+          <div class="form-group">
+            <label for="dataPrevistaDevolucao">Data Prevista de Devolução</label>
+            <input
+              type="date"
+              class="form-control"
+              id="dataPrevistaDevolucao"
+              name="dataPrevistaDevolucao"
+              required
+            />
+          </div>
+
+          <!-- Campo para Multa Aplicada -->
+          <div class="form-group">
+            <label for="multaAplicada">Multa Aplicada (R$)</label>
+            <input
+              type="text"
+              class="form-control"
+              id="multaAplicada"
+              name="multaAplicada"
+              placeholder="Digite o valor da multa"
+              required
+            />
+          </div>
+
+          <!-- Campo para Status do Empréstimo -->
+          <div class="form-group">
+            <label for="status">Status do Empréstimo</label>
+            <select class="form-control" id="status" name="status" required>
+              <option value="pendente">Pendente</option>
+              <option value="devolvido">Devolvido</option>
+            </select>
+          </div>
+
+          <!-- Botão para Submissão -->
+          <button
+            type="submit"
+            class="btn btn-primary w-100 px-5 btn-lg rounded-pill"
+            id="submitButton"
+          >
+            Cadastrar Empréstimo
+          </button>
+        </form>
+
+        <div class="login-link">
+          <p>Voltar para <a href="/emprestimos">a lista de empréstimos</a></p>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Verificar se há opções nos selects de Cliente e Livro
+        if ($('#clienteId option').length > 1) {
+          // Inicializar Select2 para o campo Cliente
+          $('#clienteId').select2({
+            placeholder: 'Escolha o Cliente',
+            allowClear: true,
+            minimumResultsForSearch: Infinity  // Desabilita a busca automática
+          });
+        }
+
+        if ($('#livroId option').length > 1) {
+          // Inicializar Select2 para o campo Livro
+          $('#livroId').select2({
+            placeholder: 'Escolha o Livro',
+            allowClear: true,
+            minimumResultsForSearch: Infinity  // Desabilita a busca automática
+          });
+        }
+
+        // Máscara para o campo Multa Aplicada (R$ 0,00)
+
+      });
+    </script>
+  </body>
+</html>

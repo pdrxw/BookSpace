@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar - BookSpace</title>
+    <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #e9ecef;
+        font-family: "Inter", sans-serif;
+        color: #343a40;
+      }
+
+      .cadastro-box {
+        border-radius: 15px;
+        background-color: rgba(248, 249, 250, 0.8);
+        border: 2px solid rgba(1, 64, 128, 0.2);
+        padding: 30px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      .form-group label {
+        color: #343a40;
+        font-weight: 500;
+      }
+
+      .form-control {
+        border: 2px solid #ced4da;
+        background-color: #f8f9fa;
+        color: #495057;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+      }
+
+      .login-link a {
+        color: #007bff;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        color: #0056b3;
+        text-decoration: none;
+      }
+
+      .login-link {
+        margin-top: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <form action="/cadastro" method="POST" id="formCadastro">
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="margin-top: 10%"
+        >
+          <div class="cadastro-box">
+            <h1 class="text-center">Cadastro BookSpace</h1>
+
+            <p
+              th:if="${error}"
+              th:text="${error}"
+              class="alert alert-danger"
+            ></p>
+
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <div class="input-group">
+                <input
+                  name="nome"
+                  required
+                  class="form-control"
+                  id="nome"
+                  placeholder="Digite seu nome"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="bx bxs-user"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="usuario">Usuário</label>
+              <div class="input-group">
+                <input
+                  name="usuario"
+                  required
+                  class="form-control"
+                  id="usuario"
+                  placeholder="Digite seu usuário"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="bx bxs-user"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <div class="input-group">
+                <input
+                  name="email"
+                  required
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Digite seu e-mail"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="bx bxs-envelope"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="senha">Senha</label>
+              <div class="input-group">
+                <input
+                  name="senha"
+                  required
+                  type="password"
+                  class="form-control"
+                  id="senha"
+                  placeholder="Digite sua senha"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="bx bxs-lock-alt"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmarSenha">Confirmar Senha</label>
+              <div class="input-group">
+                <input
+                  name="confirmarSenha"
+                  required
+                  type="password"
+                  class="form-control"
+                  id="confirmarSenha"
+                  placeholder="Confirme sua senha"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="bx bxs-lock-alt"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 px-5 btn-lg rounded-pill"
+            >
+              Cadastrar
+            </button>
+
+            <div class="login-link">
+              <p>Já tem uma conta? <a href="/login">Faça login</a></p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

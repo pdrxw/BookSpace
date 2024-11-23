@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página Principal - BookSpace</title>
+    <!-- Adicionando o favicon do Imgur -->
+    <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Estilos gerais */
+      body {
+        background-color: #dee2e6; /* Cor de fundo mais cinza */
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Borda, sombra e desfoque */
+      .jumbotron {
+        background-color: rgba(248, 249, 250, 0.8); /* Fundo suave */
+        border-radius: 15px; /* Bordas arredondadas */
+        padding: 40px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Sombra leve */
+        backdrop-filter: blur(10px); /* Efeito de desfoque */
+        -webkit-backdrop-filter: blur(10px); /* Compatibilidade com Safari */
+        border: 2px solid rgba(1, 64, 128, 0.2); /* Borda fina e sutil */
+      }
+
+      .display-4 {
+        color: #343a40; /* Cor escura para o tÃ­tulo */
+        font-weight: 600;
+        font-size: 2.5rem;
+      }
+
+      .lead {
+        color: #495057; /* Cor suave para o texto */
+        font-weight: 400;
+        font-size: 1.25rem;
+        line-height: 1.8;
+      }
+
+      .btn {
+        font-family: "Inter", sans-serif;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+      }
+
+      .btn-primary {
+        background-color: #007bff; /* Azul */
+        border-color: #007bff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3; /* Azul escuro */
+        border-color: #004085;
+      }
+
+      .btn-danger {
+        background-color: #dc3545; /* Vermelho */
+        border-color: #dc3545;
+      }
+
+      .btn-danger:hover {
+        background-color: #c82333; /* Vermelho escuro */
+        border-color: #bd2130;
+      }
+
+      .container {
+        margin-top: 5%;
+        text-align: center;
+      }
+
+      .my-4 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      hr.my-4 {
+        border-top: 1px solid #ced4da;
+      }
+
+      .btn-lg {
+        padding: 10px 40px;
+        font-size: 1.25rem;
+      }
+
+      /* Container para os botÃµes organizados lado a lado */
+      .btn-container {
+        display: flex;
+        justify-content: center; /* Centraliza todos os botÃµes */
+        gap: 10px; /* EspaÃ§o entre os botÃµes */
+        flex-wrap: nowrap; /* Impede quebra de linha */
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="jumbotron">
+        <h1 class="display-4">Olá, Seja Bem-Vindo ao BookSpace!</h1>
+        <p class="lead">
+          O BookSpace é um aplicativo para gerenciar uma biblioteca, permitindo
+          registrar empréstimos de livros com informações como tí­tulo, autor,
+          nome do usuário, data de retirada, data de devolução, contato e
+          e-mail. Tudo é registrado diretamente no sistema para facilitar o
+          controle do acervo e das devoluções.
+        </p>
+
+        <hr class="my-4" />
+        <p>Escolha uma das opções abaixo para continuar:</p>
+
+        <!-- Div para os botÃµes organizados lado a lado -->
+        <div class="btn-container">
+          <!-- BotÃµes EmprÃ©stimo, HistÃ³rico, Clientes e Livros -->
+          <a class="btn btn-primary btn-lg m-2" href="/emprestimos" role="button">Empréstimos</a>
+          <a class="btn btn-primary btn-lg m-2" href="/historico-emprestimos" role="button">Histórico</a>
+          <a class="btn btn-primary btn-lg m-2" href="/clientes" role="button">Clientes</a>
+          <a class="btn btn-primary btn-lg m-2" href="/livros" role="button">Livros</a> <!-- Novo botÃ£o -->
+          <!-- BotÃ£o Logout -->
+          <a class="btn btn-danger btn-lg m-2" href="/logout" role="button">Logout</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap 4 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

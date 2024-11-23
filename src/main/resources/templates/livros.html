@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Livros - BookSpace</title>
+    <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #dee2e6;
+        font-family: "Inter", sans-serif;
+      }
+
+      h1 {
+        color: #343a40;
+        font-weight: 600;
+        font-size: 2.5rem;
+        margin-top: 20px;
+      }
+
+      .container {
+        margin-top: 5%;
+        text-align: center;
+      }
+
+      .table-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      .table {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        table-layout: auto;
+      }
+
+      .table th,
+      .table td {
+        text-align: center;
+        padding: 12px;
+        white-space: nowrap;
+      }
+
+      .table th {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .table-striped tbody tr:nth-child(odd) {
+        background-color: #f8f9fa;
+      }
+
+      .btn {
+        font-family: "Inter", sans-serif;
+        padding: 8px 20px;
+        font-size: 1rem;
+        border-radius: 20px;
+        height: auto;
+        line-height: 1.5;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+      }
+
+      .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+
+      .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+      }
+
+      .filter-section {
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .filter-section select {
+        width: 300px;
+        padding: 10px;
+        font-size: 1.1rem;
+        height: 50px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      .search-bar {
+        width: 250px;
+        padding: 15px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      form {
+        display: inline-block;
+      }
+
+      .d-flex {
+        justify-content: space-between;
+        margin-bottom: 30px;
+      }
+
+      .m-2 {
+        margin: 10px 20px;
+      }
+
+      .btn-container {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-warning {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="d-flex justify-content-between">
+        <a class="btn btn-primary btn-lg m-2" href="/" role="button">Voltar</a>
+        
+        <h1 class="text-center mt-2">Lista de Livros</h1>
+
+        <a
+          class="btn btn-success btn-lg m-2"
+          href="/livros/cadastro"
+          role="button"
+          >Cadastrar Livro</a
+        >
+      </div>
+
+      <!-- Barra de Pesquisa e Filtro de Ordenação -->
+      <div class="filter-section">
+        <form action="/livros" method="get" id="filterForm">
+          <select
+            name="order_by"
+            id="orderSelect"
+            class="form-control"
+            onchange="document.getElementById('filterForm').submit()"
+          >
+            <option value="" disabled selected>Ordenar por:</option>
+            <option value="id" th:selected="${param.order_by == 'id'}">ID</option>
+            <option value="titulo" th:selected="${param.order_by == 'titulo'}">Título</option>
+            <option value="autor" th:selected="${param.order_by == 'autor'}">Autor</option>
+            <option value="categoria" th:selected="${param.order_by == 'categoria'}">Categoria</option>
+            <option value="dataAdmissao" th:selected="${param.order_by == 'dataAdmissao'}">Data de Admissão</option>
+          </select>
+        </form>
+
+        <form action="/livros" method="get">
+          <input
+            type="text"
+            name="search"
+            class="search-bar"
+            placeholder="Pesquise por algo..."
+          />
+          <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </form>
+      </div>
+
+      <!-- Tabela de Livros -->
+      <div class="table-container">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Autor</th>
+              <th>Categoria</th>
+              <th>Editora</th>
+              <th>Data de Admissão</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="livro : ${livros}">
+              <td th:text="${livro.id}"></td>
+              <td th:text="${livro.titulo}"></td>
+              <td th:text="${livro.autor}"></td>
+              <td th:text="${livro.categoria}"></td>
+              <td th:text="${livro.editora}"></td>
+              <td th:text="${livro.dataAdmissao}"></td>
+              <td th:text="${livro.status}" style="text-transform: capitalize"></td>
+              <td>
+                <div class="btn-container">
+                  <a th:href="@{/livros/editar/{id}(id=${livro.id})}" class="btn btn-primary">Editar</a>
+                  <form th:action="@{/livros/remover/{id}(id=${livro.id})}" method="post" style="display:inline;" onsubmit="return confirmarRemocao();">
+                    <button type="submit" class="btn btn-danger">Remover</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      function confirmarRemocao() {
+        return confirm('Você tem certeza que deseja remover este livro?');
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - BookSpace</title>
+    <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Fonte Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #e9ecef; /* Fundo suave de cinza claro */
+        font-family: "Inter", sans-serif;
+        color: #343a40; /* Texto escuro */
+      }
+
+      .login-box {
+        border-radius: 15px; /* Bordas arredondadas */
+        background-color: rgba(248, 249, 250, 0.8); /* Fundo branco suave */
+        border: 2px solid rgba(1, 64, 128, 0.2); /* Borda azul clara */
+        padding: 30px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Sombra suave */
+      }
+
+      .form-group label {
+        color: #343a40; /* Texto do label */
+        font-weight: 500;
+      }
+
+      .form-control {
+        border: 2px solid #ced4da;
+        font-family: "Inter", sans-serif;
+        background-color: #f8f9fa;
+        color: #495057;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+      }
+
+      .text-white {
+        color: #ffffff;
+      }
+
+      .login-link a {
+        color: #007bff;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        color: #0056b3;
+        text-decoration: none;
+      }
+
+      .login-link {
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .form-group.usuario {
+        margin-top: 20px;
+      }
+
+      .form-control,
+      .btn-primary {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/login" method="post">
+      <div class="col-12">
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="margin-top: 10%"
+        >
+          <div class="login-box">
+            <h1 class="text-center">Login BookSpace</h1>
+
+            <!-- Campo de Usuário -->
+            <div class="form-group usuario">
+              <label for="usuario">Usuário</label>
+              <div class="input-group">
+                <input
+                  name="usuario"
+                  required
+                  class="form-control"
+                  id="usuario"
+                  placeholder="Digite seu usuário"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campo de Senha -->
+            <div class="form-group">
+              <label for="senha">Senha</label>
+              <div class="input-group">
+                <input
+                  name="senha"
+                  required
+                  type="password"
+                  class="form-control"
+                  id="senha"
+                  placeholder="Digite sua senha"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exibindo a mensagem de erro -->
+            <p
+              th:if="${error}"
+              th:text="${error}"
+              class="alert alert-danger"
+            ></p>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 px-5 btn-lg rounded-pill"
+            >
+              Login
+            </button>
+
+            <div class="login-link">
+              <p>
+                Não tem uma conta?
+                <a href="/cadastrar">Cadastre-se</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Bootstrap 4 and FontAwesome JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
