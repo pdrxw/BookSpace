@@ -159,8 +159,8 @@
           <div class="form-group">
             <label for="status">Status do Empréstimo</label>
             <select class="form-control" id="status" name="status" required>
-              <option value="pendente" th:selected="${emprestimo.status == 'pendente'}">Pendente</option>
-              <option value="devolvido" th:selected="${emprestimo.status == 'devolvido'}">Devolvido</option>
+              <option value="ativo" th:selected="${emprestimo.status == 'ativo'}">Ativo</option>
+              <option value="inativo" th:selected="${emprestimo.status == 'inativo'}">Inativo</option>
             </select>
           </div>
 
