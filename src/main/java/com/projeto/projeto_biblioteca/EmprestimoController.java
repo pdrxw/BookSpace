@@ -189,13 +189,25 @@ public class EmprestimoController {
     // Método para remover um empréstimo
     @PostMapping("/remover/{id}")
     public String removerEmprestimo(@PathVariable("id") Long id, Model model) {
-        try {
-            emprestimoService.removerEmprestimo(id); // Chama o serviço para remover o empréstimo
-        } catch (Exception e) {
-            model.addAttribute("error", "Erro ao remover o empréstimo.");
-            return "redirect:/emprestimos"; // Se houver erro, redireciona para a lista
+    try {
+        // Busca o empréstimo antes de removê-lo
+        Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
+        
+        if (emprestimo != null) {
+            // Obtém o livro que estava emprestado
+            Long livroId = emprestimo.getLivro().getId();
+            
+            // Alterar o status do livro para "disponível"
+            livroService.alterarStatusLivro(livroId, "disponivel");
+            
+            // Chama o serviço para remover o empréstimo
+            emprestimoService.removerEmprestimo(id);
         }
-
-        return "redirect:/emprestimos"; // Redireciona para a lista de empréstimos após a remoção
+    } catch (Exception e) {
+        model.addAttribute("error", "Erro ao remover o empréstimo.");
+        return "redirect:/emprestimos"; // Se houver erro, redireciona para a lista
     }
+
+    return "redirect:/emprestimos"; // Redireciona para a lista de empréstimos após a remoção
+}
 }
