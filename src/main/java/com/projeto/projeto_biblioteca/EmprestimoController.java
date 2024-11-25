@@ -77,7 +77,6 @@ public class EmprestimoController {
         @RequestParam String dataRetirada,
         @RequestParam String dataPrevistaDevolucao,
         @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada, // Aqui, definimos o valor padrão para 0
-        // @RequestParam(value = "status", defaultValue = "emprestado") String status,
         @RequestParam(value = "order_by", defaultValue = "dataRetirada") String orderBy, // Novo parâmetro orderBy
         Model model) {
 
@@ -215,72 +214,6 @@ public class EmprestimoController {
 
     return "redirect:/emprestimos"; // Redireciona para a lista de emprÃ©stimos apÃ³s a remoÃ§Ã£o
 }
-// @GetMapping("/concluir/{id}")
-//     public String concluirEmprestimo(@PathVariable("id") Long id, Model model) {
-//         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
-//         if (emprestimo == null) {
-//             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
-//             return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
-//         }
-
-//         model.addAttribute("emprestimo", emprestimo);
-
-//         List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
-//         List<Livro> livros = livroService.listarLivrosOrdenados("id");
-//         model.addAttribute("clientes", clientes);
-//         model.addAttribute("livros", livros);
-
-//         return "concluir-emprestimo"; // PÃ¡gina de ediÃ§Ã£o de emprÃ©stimo
-//     }
-
-
-//     @PostMapping("/concluir/{id}")
-//     public String concluirCadastro(
-//             @PathVariable("id") Long id,
-//             @RequestParam Long clienteId,
-//             @RequestParam Long livroId,
-//             @RequestParam String dataPrevistaDevolucao,
-//             @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada, // Novo parÃ¢metro orderBy
-//             Model model) {
-         
-//         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
-//         if (emprestimo == null) {
-//             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
-//             return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
-//         }
-
-//         // Verifica se o livro foi alterado
-//         Long livroAntigoId = emprestimo.getLivro().getId();
-//         if (!livroAntigoId.equals(livroId)) {
-//             // Caso o livro tenha sido alterado:
-//             // Alterar o status do livro antigo para "disponÃ­vel"
-//             livroService.alterarStatusLivro(livroAntigoId, "disponivel");
-
-//             // Alterar o status do novo livro para "indisponÃ­vel"
-//             livroService.alterarStatusLivro(livroId, "emprestado");
-//         }
-
-//         // Atualiza o emprÃ©stimo com os novos dados
-//         emprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
-//         emprestimo.setLivro(livroService.buscarLivroPorId(livroId));
-//         emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
-//         emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
-
-//         try {
-//             // Salva o emprÃ©stimo atualizado
-//             emprestimoService.salvarEmprestimo(emprestimo);
-//         } catch (DataIntegrityViolationException e) {
-//             model.addAttribute("error", "Erro ao atualizar o emprÃ©stimo.");
-//             List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
-//             List<Livro> livros = livroService.listarLivrosOrdenados("id");
-//             model.addAttribute("clientes", clientes);
-//             model.addAttribute("livros", livros);
-//             return "concluir-emprestimo"; // Retorna Ã  pÃ¡gina de ediÃ§Ã£o de emprÃ©stimo com erro
-//         }
-
-//         return "redirect:/emprestimos"; // Redireciona para a lista de emprÃ©stimos apÃ³s a atualizaÃ§Ã£o
-//     }
-
     @GetMapping("/concluir/{id}")
     public String concluirEmprestimo(@PathVariable("id") Long id, Model model) {
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
@@ -303,13 +236,8 @@ public class EmprestimoController {
     @PostMapping("/concluir/{id}")
     public String concluirCadastro(
             @PathVariable("id") Long id,
-            // @RequestParam Long clienteId,
-            // @RequestParam Long livroId,
-            // @RequestParam String dataRetirada,
             @RequestParam String dataDevolucao,
             @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada,
-            // @RequestParam String status,
-            // @RequestParam(value = "order_by", defaultValue = "dataRetirada") String orderBy, // Novo parÃ¢metro orderBy
             Model model) {
 
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
@@ -318,24 +246,8 @@ public class EmprestimoController {
             return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
         }
 
-        // Verifica se o livro foi alterado
-        // Long livroAntigoId = emprestimo.getLivro().getId();
-        // if (!livroAntigoId.equals(livroId)) {
-        //     // Caso o livro tenha sido alterado:
-        //     // Alterar o status do livro antigo para "disponÃ­vel"
-        //     livroService.alterarStatusLivro(livroAntigoId, "disponivel");
-
-        //     // Alterar o status do novo livro para "indisponÃ­vel"
-        //     livroService.alterarStatusLivro(livroId, "emprestado");
-        // }
-
-        // Atualiza o emprÃ©stimo com os novos dados
-        // emprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
-        // emprestimo.setLivro(livroService.buscarLivroPorId(livroId));
-        // emprestimo.setDataRetirada(dataRetirada);
         emprestimo.setDataPrevistaDevolucao(dataDevolucao);
         emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
-        // emprestimo.setStatus(status);
 
         try {
             // Salva o emprÃ©stimo atualizado

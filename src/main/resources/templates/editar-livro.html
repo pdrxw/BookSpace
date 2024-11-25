@@ -154,9 +154,24 @@
         <div class="form-group">
           <label for="status">Status</label>
           <select class="form-control" id="status" name="status" required>
-            <option value="disponivel" th:selected="${livro.status == 'disponivel'}">Disponível</option>
-            <option value="indisponivel" th:selected="${livro.status == 'indisponivel'}">Indisponível</option>
-            <option value="emprestado" th:selected="${livro.status == 'emprestado'}">Emprestado</option>
+            <option
+              value="disponivel"
+              th:selected="${livro.status == 'disponivel'}"
+            >
+              Disponível
+            </option>
+            <option
+              value="indisponivel"
+              th:selected="${livro.status == 'indisponivel'}"
+            >
+              Indisponível
+            </option>
+            <option
+              value="emprestado"
+              th:selected="${livro.status == 'emprestado'}"
+            >
+              Emprestado
+            </option>
           </select>
         </div>
 

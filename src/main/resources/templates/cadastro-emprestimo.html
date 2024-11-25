@@ -14,7 +14,10 @@
       rel="stylesheet"
     />
     <!-- Adicionar CSS do Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
     <style>
       body {
         background-color: #e9ecef;
@@ -104,41 +107,43 @@
       <div class="cadastro-box">
         <h1>Cadastro de Empréstimo</h1>
 
-        <p
-          th:if="${error}"
-          th:text="${error}"
-          class="alert alert-danger"
-        ></p>
+        <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
 
         <form action="/emprestimos/cadastro" method="post" id="formCadastro">
-
           <!-- Campo para Seleção de Cliente com pesquisa -->
           <div class="form-group">
             <label for="clienteId">Selecione o Cliente</label>
-            <select class="form-control" id="clienteId" name="clienteId" required>
+            <select
+              class="form-control"
+              id="clienteId"
+              name="clienteId"
+              required
+            >
               <option value="" disabled selected>Escolha o Cliente</option>
               <!-- Loop para exibir todos os clientes cadastrados -->
               <th:block th:each="cliente : ${clientes}">
-                <option th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+                <option
+                  th:value="${cliente.id}"
+                  th:text="${cliente.nome}"
+                ></option>
               </th:block>
             </select>
           </div>
 
           <!-- Campo para Seleção de Livro com pesquisa -->
-<div class="form-group">
-  <label for="livroId">Selecione o Livro</label>
-  <select class="form-control" id="livroId" name="livroId" required>
-    <option value="" disabled selected>Escolha o Livro</option>
-    <!-- Loop para exibir todos os livros cadastrados com status formatado ao lado do título -->
-    <th:block th:each="livro : ${livros}">
-      <option th:value="${livro.id}" 
-              th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}" />
-    </th:block>
-  </select>
-</div>
-
-
-
+          <div class="form-group">
+            <label for="livroId">Selecione o Livro</label>
+            <select class="form-control" id="livroId" name="livroId" required>
+              <option value="" disabled selected>Escolha o Livro</option>
+              <!-- Loop para exibir todos os livros cadastrados com status formatado ao lado do título -->
+              <th:block th:each="livro : ${livros}">
+                <option
+                  th:value="${livro.id}"
+                  th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}"
+                />
+              </th:block>
+            </select>
+          </div>
 
           <!-- Campo para Data de Retirada -->
           <div class="form-group">
@@ -154,7 +159,9 @@
 
           <!-- Campo para Data Prevista de Devolução -->
           <div class="form-group">
-            <label for="dataPrevistaDevolucao">Data Prevista de Devolução</label>
+            <label for="dataPrevistaDevolucao"
+              >Data Prevista de Devolução</label
+            >
             <input
               type="date"
               class="form-control"
@@ -163,15 +170,6 @@
               required
             />
           </div>
-
-          <!-- Campo para Status do Empréstimo -->
-          <!-- <div class="form-group">
-            <label for="status">Status do Empréstimo</label>
-            <select class="form-control" id="status" name="status" required>
-              <option value="ativo">Ativo</option>
-              <option value="inativo">Inativo</option>
-            </select>
-          </div> -->
 
           <!-- Botão para Submissão -->
           <button
@@ -195,26 +193,25 @@
     <script>
       $(document).ready(function () {
         // Verificar se há opções nos selects de Cliente e Livro
-        if ($('#clienteId option').length > 1) {
+        if ($("#clienteId option").length > 1) {
           // Inicializar Select2 para o campo Cliente
-          $('#clienteId').select2({
-            placeholder: 'Escolha o Cliente',
+          $("#clienteId").select2({
+            placeholder: "Escolha o Cliente",
             allowClear: true,
-            minimumResultsForSearch: Infinity  // Desabilita a busca automática
+            minimumResultsForSearch: Infinity, // Desabilita a busca automática
           });
         }
 
-        if ($('#livroId option').length > 1) {
+        if ($("#livroId option").length > 1) {
           // Inicializar Select2 para o campo Livro
-          $('#livroId').select2({
-            placeholder: 'Escolha o Livro',
+          $("#livroId").select2({
+            placeholder: "Escolha o Livro",
             allowClear: true,
-            minimumResultsForSearch: Infinity  // Desabilita a busca automática
+            minimumResultsForSearch: Infinity, // Desabilita a busca automática
           });
         }
 
         // Máscara para o campo Multa Aplicada (R$ 0,00)
-
       });
     </script>
   </body>

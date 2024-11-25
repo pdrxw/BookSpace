@@ -14,7 +14,10 @@
       rel="stylesheet"
     />
     <!-- Adicionar CSS do Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
     <style>
       body {
         background-color: #e9ecef;
@@ -108,16 +111,29 @@
         <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
 
         <!-- Formulário de Edição de Empréstimo -->
-        <form action="/historico/editar/{id}" method="post" th:action="@{/historico/editar/{id}(id=${historico.id})}" id="formCadastro">
-
+        <form
+          action="/historico/editar/{id}"
+          method="post"
+          th:action="@{/historico/editar/{id}(id=${historico.id})}"
+          id="formCadastro"
+        >
           <!-- Campo para Seleção de Cliente -->
           <div class="form-group">
             <label for="clienteId">Selecione o Cliente</label>
-            <select class="form-control" id="clienteId" name="clienteId" required>
+            <select
+              class="form-control"
+              id="clienteId"
+              name="clienteId"
+              required
+            >
               <option value="" disabled selected>Escolha o Cliente</option>
               <!-- Exibir todos os clientes cadastrados -->
               <th:block th:each="cliente : ${clientes}">
-                <option th:value="${cliente.id}" th:text="${cliente.nome}" th:selected="${cliente.id == historico.cliente.id}"></option>
+                <option
+                  th:value="${cliente.id}"
+                  th:text="${cliente.nome}"
+                  th:selected="${cliente.id == historico.cliente.id}"
+                ></option>
               </th:block>
             </select>
           </div>
@@ -129,9 +145,11 @@
               <option value="" disabled selected>Escolha o Livro</option>
               <!-- Exibir todos os livros cadastrados -->
               <th:block th:each="livro : ${livros}">
-                <option th:value="${livro.id}" 
-                        th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}"
-                        th:selected="${livro.id == historico.livro.id}"></option>
+                <option
+                  th:value="${livro.id}"
+                  th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}"
+                  th:selected="${livro.id == historico.livro.id}"
+                ></option>
               </th:block>
             </select>
           </div>
@@ -139,38 +157,79 @@
           <!-- Campo para Data de Retirada -->
           <div class="form-group">
             <label for="dataRetirada">Data de Retirada</label>
-            <input type="date" class="form-control" id="dataRetirada" name="dataRetirada" th:value="${historico.dataRetirada}" required />
+            <input
+              type="date"
+              class="form-control"
+              id="dataRetirada"
+              name="dataRetirada"
+              th:value="${historico.dataRetirada}"
+              required
+            />
           </div>
 
           <!-- Campo para Data Prevista de Devolução -->
           <div class="form-group">
-            <label for="dataPrevistaDevolucao">Data Prevista de Devolução</label>
-            <input type="date" class="form-control" id="dataPrevistaDevolucao" name="dataPrevistaDevolucao" th:value="${historico.dataPrevistaDevolucao}" required />
+            <label for="dataPrevistaDevolucao"
+              >Data Prevista de Devolução</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="dataPrevistaDevolucao"
+              name="dataPrevistaDevolucao"
+              th:value="${historico.dataPrevistaDevolucao}"
+              required
+            />
           </div>
 
           <!-- Campo para Multa Aplicada -->
           <div class="form-group">
             <label for="multaAplicada">Multa Aplicada (R$)</label>
-            <input type="text" class="form-control" id="multaAplicada" name="multaAplicada" placeholder="Digite o valor da multa" th:value="${historico.multaAplicada}" required />
+            <input
+              type="text"
+              class="form-control"
+              id="multaAplicada"
+              name="multaAplicada"
+              placeholder="Digite o valor da multa"
+              th:value="${historico.multaAplicada}"
+              required
+            />
           </div>
 
           <!-- Campo para Status do Empréstimo -->
           <div class="form-group">
             <label for="status">Status do Empréstimo</label>
             <select class="form-control" id="status" name="status" required>
-              <option value="ativo" th:selected="${historico.status == 'ativo'}">Ativo</option>
-              <option value="inativo" th:selected="${historico.status == 'inativo'}">Inativo</option>
+              <option
+                value="ativo"
+                th:selected="${historico.status == 'ativo'}"
+              >
+                Ativo
+              </option>
+              <option
+                value="inativo"
+                th:selected="${historico.status == 'inativo'}"
+              >
+                Inativo
+              </option>
             </select>
           </div>
 
           <!-- Botão para Submissão -->
-          <button type="submit" class="btn btn-primary w-100 px-5 btn-lg rounded-pill" id="submitButton">
+          <button
+            type="submit"
+            class="btn btn-primary w-100 px-5 btn-lg rounded-pill"
+            id="submitButton"
+          >
             Atualizar Histórico de Empréstimo
           </button>
         </form>
 
         <div class="login-link">
-          <p>Voltar para <a href="/historico">a lista de históricos de empréstimos</a></p>
+          <p>
+            Voltar para
+            <a href="/historico">a lista de históricos de empréstimos</a>
+          </p>
         </div>
       </div>
     </main>
@@ -181,24 +240,24 @@
     <script>
       $(document).ready(function () {
         // Inicializar Select2 para os campos Cliente e Livro
-        $('#clienteId').select2({
-          placeholder: 'Escolha o Cliente',
-          allowClear: true
+        $("#clienteId").select2({
+          placeholder: "Escolha o Cliente",
+          allowClear: true,
         });
 
-        $('#livroId').select2({
-          placeholder: 'Escolha o Livro',
-          allowClear: true
+        $("#livroId").select2({
+          placeholder: "Escolha o Livro",
+          allowClear: true,
         });
 
         // Máscara para o campo Multa Aplicada (R$ 0,00)
-        $('#multaAplicada').mask('000.000.000.00', { reverse: true });
+        $("#multaAplicada").mask("000.000.000.00", { reverse: true });
 
         // Substitui a vírgula por ponto antes de enviar o formulário
-        $('#formCadastro').submit(function () {
-          var multaAplicada = $('#multaAplicada').val();
-          multaAplicada = multaAplicada.replace('.', '.'); // Garante que o valor da multa tenha o formato correto
-          $('#multaAplicada').val(multaAplicada);
+        $("#formCadastro").submit(function () {
+          var multaAplicada = $("#multaAplicada").val();
+          multaAplicada = multaAplicada.replace(".", "."); // Garante que o valor da multa tenha o formato correto
+          $("#multaAplicada").val(multaAplicada);
         });
       });
     </script>

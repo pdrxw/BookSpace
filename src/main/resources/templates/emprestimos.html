@@ -150,7 +150,7 @@
     <div class="container">
       <div class="d-flex justify-content-between">
         <a class="btn btn-primary btn-lg m-2" href="/" role="button">Voltar</a>
-        
+
         <h1 class="text-center mt-2">Listagem de Empréstimos</h1>
 
         <a
@@ -171,11 +171,30 @@
             onchange="document.getElementById('filterForm').submit()"
           >
             <option value="" disabled selected>Ordenar por:</option>
-            <option value="id" th:selected="${param.order_by == 'id'}">ID</option>
-            <option value="cliente.nome" th:selected="${param.order_by == 'cliente.nome'}">Cliente</option>
-            <option value="livro.titulo" th:selected="${param.order_by == 'livro.titulo'}">Livro</option>
-            <option value="dataRetirada" th:selected="${param.order_by == 'dataRetirada'}">Data de Retirada</option>
-            <option value="status" th:selected="${param.order_by == 'status'}">Status</option>
+            <option value="id" th:selected="${param.order_by == 'id'}">
+              ID
+            </option>
+            <option
+              value="cliente.nome"
+              th:selected="${param.order_by == 'cliente.nome'}"
+            >
+              Cliente
+            </option>
+            <option
+              value="livro.titulo"
+              th:selected="${param.order_by == 'livro.titulo'}"
+            >
+              Livro
+            </option>
+            <option
+              value="dataRetirada"
+              th:selected="${param.order_by == 'dataRetirada'}"
+            >
+              Data de Retirada
+            </option>
+            <option value="status" th:selected="${param.order_by == 'status'}">
+              Status
+            </option>
           </select>
         </form>
 
@@ -185,7 +204,8 @@
             name="search"
             class="search-bar"
             placeholder="Pesquise por algo..."
-            th:value="${search}"/>
+            th:value="${search}"
+          />
           <button type="submit" class="btn btn-primary">Pesquisar</button>
         </form>
       </div>
@@ -197,6 +217,8 @@
             <tr>
               <th>ID</th>
               <th>Cliente</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
               <th>Livro</th>
               <th>Data do Empréstimo</th>
               <th>Data Prevista de Devolução</th>
@@ -206,34 +228,55 @@
             </tr>
           </thead>
           <tbody>
-  <tr th:each="emprestimo : ${emprestimos}" 
-      th:classappend="${emprestimo.status == 'inativo' ? 'hidden' : ''}">
-    <td th:text="${emprestimo.id}"></td>
-    <td th:text="${emprestimo.cliente.nome}"></td>
-    <td th:text="${emprestimo.livro.titulo}"></td>
-    <td th:text="${emprestimo.dataRetirada}"></td>
-    <td th:text="${emprestimo.dataPrevistaDevolucao}"></td>
-    <td th:text="${#strings.capitalize(emprestimo.status)}"></td>
-    <td th:text="${emprestimo.multaAplicada} + ' R$'"></td>
-    <td>
-      <div class="btn-container">
-        <a th:href="@{/emprestimos/editar/{id}(id=${emprestimo.id})}" class="btn btn-primary">Editar</a>
-        <form th:action="@{/emprestimos/remover/{id}(id=${emprestimo.id})}" method="post" style="display:inline;" onsubmit="return confirmarRemocao();">
-          <button type="submit" class="btn btn-danger">Remover</button>
-        </form>
-        <!-- Novo botão Concluir Empréstimo -->
-        <a th:href="@{/emprestimos/concluir/{id}(id=${emprestimo.id})}" class="btn btn-success">Concluir Empréstimo</a>
-      </div>
-    </td>
-  </tr>
-</tbody>
+            <tr
+              th:each="emprestimo : ${emprestimos}"
+              th:classappend="${emprestimo.status == 'inativo' ? 'hidden' : ''}"
+            >
+              <td th:text="${emprestimo.id}"></td>
+              <td th:text="${emprestimo.cliente.nome}"></td>
+              <td th:text="${emprestimo.cliente.email}"></td>
+              <td th:text="${emprestimo.cliente.telefone}"></td>
+              <td th:text="${emprestimo.livro.titulo}"></td>
+              <td th:text="${emprestimo.dataRetirada}"></td>
+              <td th:text="${emprestimo.dataPrevistaDevolucao}"></td>
+              <td th:text="${#strings.capitalize(emprestimo.status)}"></td>
+              <td th:text="${emprestimo.multaAplicada} + ' R$'"></td>
+              <td>
+                <div class="btn-container">
+                  <a
+                    th:href="@{/emprestimos/editar/{id}(id=${emprestimo.id})}"
+                    class="btn btn-primary"
+                    >Editar</a
+                  >
+                  <form
+                    th:action="@{/emprestimos/remover/{id}(id=${emprestimo.id})}"
+                    method="post"
+                    style="display: inline"
+                    onsubmit="return confirmarRemocao();"
+                  >
+                    <button type="submit" class="btn btn-danger">
+                      Remover
+                    </button>
+                  </form>
+                  <!-- Novo botão Concluir Empréstimo -->
+                  <a
+                    th:href="@{/emprestimos/concluir/{id}(id=${emprestimo.id})}"
+                    class="btn btn-success"
+                    >Concluir Empréstimo</a
+                  >
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
 
     <script>
       function confirmarRemocao() {
-        return confirm('Você tem certeza que deseja remover este empréstimo?');
+        return confirm(
+          "Você tem certeza que deseja remover este empréstimo?"
+        );
       }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

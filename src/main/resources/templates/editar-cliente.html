@@ -89,7 +89,10 @@
     <div class="cadastro-box">
       <h1>Editar Cliente</h1>
       <!-- Alteração feita na linha abaixo para garantir que o id do cliente será passado corretamente -->
-      <form th:action="@{/clientes/editar/{id}(id=${cliente.id})}" method="post">
+      <form
+        th:action="@{/clientes/editar/{id}(id=${cliente.id})}"
+        method="post"
+      >
         <div class="form-group">
           <label for="nome">Nome</label>
           <input
@@ -192,8 +195,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
       $(document).ready(function () {
-        $('#telefone').mask('(00) 00000-0000');
-        $('#cpf').mask('000.000.000-00');
+        $("#telefone").mask("(00) 00000-0000");
+        $("#cpf").mask("000.000.000-00");
       });
     </script>
   </body>

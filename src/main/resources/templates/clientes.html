@@ -146,7 +146,7 @@
     <div class="container">
       <div class="d-flex justify-content-between">
         <a class="btn btn-primary btn-lg m-2" href="/" role="button">Voltar</a>
-        
+
         <h1 class="text-center mt-2">Lista de Clientes</h1>
 
         <a
@@ -167,10 +167,21 @@
             onchange="document.getElementById('filterForm').submit()"
           >
             <option value="" disabled selected>Ordenar por:</option>
-            <option value="id" th:selected="${param.order_by == 'id'}">ID</option>
-            <option value="nome" th:selected="${param.order_by == 'nome'}">Nome</option>
-            <option value="email" th:selected="${param.order_by == 'email'}">Email</option>
-            <option value="dataCadastro" th:selected="${param.order_by == 'dataCadastro'}">Data de Cadastro</option>
+            <option value="id" th:selected="${param.order_by == 'id'}">
+              ID
+            </option>
+            <option value="nome" th:selected="${param.order_by == 'nome'}">
+              Nome
+            </option>
+            <option value="email" th:selected="${param.order_by == 'email'}">
+              Email
+            </option>
+            <option
+              value="dataCadastro"
+              th:selected="${param.order_by == 'dataCadastro'}"
+            >
+              Data de Cadastro
+            </option>
           </select>
         </form>
 
@@ -196,7 +207,7 @@
               <th>Telefone</th>
               <th>Data de Nascimento</th>
               <th>CPF</th>
-              <th>Livros Emprestados</th>
+              <!-- <th>Livros Emprestados</th> -->
               <th>Data de Cadastro</th>
               <th>Ações</th>
             </tr>
@@ -209,13 +220,24 @@
               <td th:text="${cliente.telefone}"></td>
               <td th:text="${cliente.dataNascimento}"></td>
               <td th:text="${cliente.cpf}"></td>
-              <td th:text="${cliente.livrosEmprestados}"></td>
+              <!-- <td th:text="${cliente.livrosEmprestados}"></td> -->
               <td th:text="${cliente.dataCadastro}"></td>
               <td>
                 <div class="btn-container">
-                  <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" class="btn btn-primary">Editar</a>
-                  <form th:action="@{/clientes/remover/{id}(id=${cliente.id})}" method="post" style="display:inline;" onsubmit="return confirmarRemocao();">
-                    <button type="submit" class="btn btn-danger">Remover</button>
+                  <a
+                    th:href="@{/clientes/editar/{id}(id=${cliente.id})}"
+                    class="btn btn-primary"
+                    >Editar</a
+                  >
+                  <form
+                    th:action="@{/clientes/remover/{id}(id=${cliente.id})}"
+                    method="post"
+                    style="display: inline"
+                    onsubmit="return confirmarRemocao();"
+                  >
+                    <button type="submit" class="btn btn-danger">
+                      Remover
+                    </button>
                   </form>
                 </div>
               </td>
@@ -227,7 +249,7 @@
 
     <script>
       function confirmarRemocao() {
-        return confirm('Você tem certeza que deseja remover este cliente?');
+        return confirm("Você tem certeza que deseja remover este cliente?");
       }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
