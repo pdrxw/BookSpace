@@ -215,26 +215,73 @@ public class EmprestimoController {
 
     return "redirect:/emprestimos"; // Redireciona para a lista de emprÃ©stimos apÃ³s a remoÃ§Ã£o
 }
+// @GetMapping("/concluir/{id}")
+//     public String concluirEmprestimo(@PathVariable("id") Long id, Model model) {
+//         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
+//         if (emprestimo == null) {
+//             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
+//             return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
+//         }
 
-// // Página para o formulário de conclusão do empréstimo
-// @GetMapping("/concluir-emprestimo/{id}")
-// public String concluirEmprestimo(@PathVariable("id") Long id, Model model) {
-//     Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
-//     if (emprestimo == null) {
-//         model.addAttribute("error", "Empréstimo não encontrado.");
-//         return "redirect:/emprestimos"; // Se o empréstimo não for encontrado, redireciona para a lista
+//         model.addAttribute("emprestimo", emprestimo);
+
+//         List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
+//         List<Livro> livros = livroService.listarLivrosOrdenados("id");
+//         model.addAttribute("clientes", clientes);
+//         model.addAttribute("livros", livros);
+
+//         return "concluir-emprestimo"; // PÃ¡gina de ediÃ§Ã£o de emprÃ©stimo
 //     }
 
-//     model.addAttribute("emprestimo", emprestimo);
-//     List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
-//     List<Livro> livros = livroService.listarLivrosOrdenados("id");
-//     model.addAttribute("clientes", clientes);
-//     model.addAttribute("livros", livros);
 
-//     return "concluir-emprestimo"; // Página de conclusão do empréstimo
-// }
+//     @PostMapping("/concluir/{id}")
+//     public String concluirCadastro(
+//             @PathVariable("id") Long id,
+//             @RequestParam Long clienteId,
+//             @RequestParam Long livroId,
+//             @RequestParam String dataPrevistaDevolucao,
+//             @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada, // Novo parÃ¢metro orderBy
+//             Model model) {
+         
+//         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
+//         if (emprestimo == null) {
+//             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
+//             return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
+//         }
 
-@GetMapping("/concluir/{id}")
+//         // Verifica se o livro foi alterado
+//         Long livroAntigoId = emprestimo.getLivro().getId();
+//         if (!livroAntigoId.equals(livroId)) {
+//             // Caso o livro tenha sido alterado:
+//             // Alterar o status do livro antigo para "disponÃ­vel"
+//             livroService.alterarStatusLivro(livroAntigoId, "disponivel");
+
+//             // Alterar o status do novo livro para "indisponÃ­vel"
+//             livroService.alterarStatusLivro(livroId, "emprestado");
+//         }
+
+//         // Atualiza o emprÃ©stimo com os novos dados
+//         emprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
+//         emprestimo.setLivro(livroService.buscarLivroPorId(livroId));
+//         emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
+//         emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
+
+//         try {
+//             // Salva o emprÃ©stimo atualizado
+//             emprestimoService.salvarEmprestimo(emprestimo);
+//         } catch (DataIntegrityViolationException e) {
+//             model.addAttribute("error", "Erro ao atualizar o emprÃ©stimo.");
+//             List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
+//             List<Livro> livros = livroService.listarLivrosOrdenados("id");
+//             model.addAttribute("clientes", clientes);
+//             model.addAttribute("livros", livros);
+//             return "concluir-emprestimo"; // Retorna Ã  pÃ¡gina de ediÃ§Ã£o de emprÃ©stimo com erro
+//         }
+
+//         return "redirect:/emprestimos"; // Redireciona para a lista de emprÃ©stimos apÃ³s a atualizaÃ§Ã£o
+//     }
+
+    @GetMapping("/concluir/{id}")
     public String concluirEmprestimo(@PathVariable("id") Long id, Model model) {
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
         if (emprestimo == null) {
@@ -252,16 +299,19 @@ public class EmprestimoController {
         return "concluir-emprestimo"; // PÃ¡gina de ediÃ§Ã£o de emprÃ©stimo
     }
 
-
+    // MÃ©todo para atualizar o emprÃ©stimo apÃ³s a ediÃ§Ã£o
     @PostMapping("/concluir/{id}")
     public String concluirCadastro(
             @PathVariable("id") Long id,
-            @RequestParam Long clienteId,
-            @RequestParam Long livroId,
-            @RequestParam String dataPrevistaDevolucao,
-            @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada, // Novo parÃ¢metro orderBy
+            // @RequestParam Long clienteId,
+            // @RequestParam Long livroId,
+            // @RequestParam String dataRetirada,
+            @RequestParam String dataDevolucao,
+            @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada,
+            // @RequestParam String status,
+            // @RequestParam(value = "order_by", defaultValue = "dataRetirada") String orderBy, // Novo parÃ¢metro orderBy
             Model model) {
-         
+
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
         if (emprestimo == null) {
             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
@@ -269,21 +319,23 @@ public class EmprestimoController {
         }
 
         // Verifica se o livro foi alterado
-        Long livroAntigoId = emprestimo.getLivro().getId();
-        if (!livroAntigoId.equals(livroId)) {
-            // Caso o livro tenha sido alterado:
-            // Alterar o status do livro antigo para "disponÃ­vel"
-            livroService.alterarStatusLivro(livroAntigoId, "disponivel");
+        // Long livroAntigoId = emprestimo.getLivro().getId();
+        // if (!livroAntigoId.equals(livroId)) {
+        //     // Caso o livro tenha sido alterado:
+        //     // Alterar o status do livro antigo para "disponÃ­vel"
+        //     livroService.alterarStatusLivro(livroAntigoId, "disponivel");
 
-            // Alterar o status do novo livro para "indisponÃ­vel"
-            livroService.alterarStatusLivro(livroId, "emprestado");
-        }
+        //     // Alterar o status do novo livro para "indisponÃ­vel"
+        //     livroService.alterarStatusLivro(livroId, "emprestado");
+        // }
 
         // Atualiza o emprÃ©stimo com os novos dados
-        emprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
-        emprestimo.setLivro(livroService.buscarLivroPorId(livroId));
-        emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
+        // emprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
+        // emprestimo.setLivro(livroService.buscarLivroPorId(livroId));
+        // emprestimo.setDataRetirada(dataRetirada);
+        emprestimo.setDataPrevistaDevolucao(dataDevolucao);
         emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
+        // emprestimo.setStatus(status);
 
         try {
             // Salva o emprÃ©stimo atualizado
@@ -299,7 +351,5 @@ public class EmprestimoController {
 
         return "redirect:/emprestimos"; // Redireciona para a lista de emprÃ©stimos apÃ³s a atualizaÃ§Ã£o
     }
-
-
 
 }

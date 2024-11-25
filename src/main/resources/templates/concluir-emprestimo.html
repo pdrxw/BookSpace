@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Concluir Empréstimo - BookSpace</title>
+    <title>Edição de Empréstimo - BookSpace</title>
     <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
     <link
       rel="stylesheet"
@@ -13,6 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <!-- Adicionar CSS do Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <style>
       body {
@@ -101,54 +102,26 @@
   <body>
     <main class="container">
       <div class="cadastro-box">
-        <h1>Concluir Empréstimo</h1>
+        <h1>Edição de Empréstimo</h1>
 
         <!-- Exibir erro, se houver -->
         <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
 
-        <!-- Formulário de Conclusão de Empréstimo -->
+        <!-- Formulário de Edição de Empréstimo -->
         <form action="/emprestimos/concluir/{id}" method="post" th:action="@{/emprestimos/concluir/{id}(id=${emprestimo.id})}" id="formCadastro">
 
-<div class="form-group">
-            <label for="clienteId">Selecione o Cliente</label>
-            <select class="form-control" id="clienteId" name="clienteId" required>
-              <option value="" disabled selected>Escolha o Cliente</option>
-              <!-- Exibir todos os clientes cadastrados -->
-              <th:block th:each="cliente : ${clientes}">
-                <option th:value="${cliente.id}" th:text="${cliente.nome}" th:selected="${cliente.id == emprestimo.cliente.id}"></option>
-              </th:block>
-            </select>
-          </div>
-
-          <!-- Campo para SeleÃ§Ã£o de Livro com pesquisa -->
-<div class="form-group">
-  <label for="livroId">Selecione o Livro</label>
-  <select class="form-control" id="livroId" name="livroId" required>
-    <option value="" disabled selected>Escolha o Livro</option>
-    <!-- Loop para exibir todos os livros cadastrados com status formatado ao lado do tÃ­tulo -->
-    <th:block th:each="livro : ${livros}">
-      <option th:value="${livro.id}" 
-              th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}"
-              th:selected="${livro.id == emprestimo.livro.id}"></option>
-    </th:block>
-  </select>
-</div>
-
-          <!-- Campo para Data de Devolução -->
           <div class="form-group">
-            <label for="dataDevolucao">Data de Devolução</label>
+            <label for="dataDevolucao">Data Prevista de Devolução</label>
             <input type="date" class="form-control" id="dataDevolucao" name="dataDevolucao" th:value="${emprestimo.dataDevolucao}" required />
           </div>
-
-          <!-- Campo para Multa a Ser Aplicada -->
+          
           <div class="form-group">
-            <label for="multaAplicada">Multa a Ser Aplicada (R$)</label>
-            <input type="text" class="form-control" id="multaAplicada" name="multaAplicada" placeholder="Digite o valor da multa" th:value="${emprestimo.multaAplicada}"/>
+            <label for="multaAplicada">Multa Aplicada (R$)</label>
+            <input type="text" class="form-control" id="multaAplicada" name="multaAplicada" placeholder="Digite o valor da multa" th:value="${emprestimo.multaAplicada}" />
           </div>
 
-          <!-- Botão para Concluir o Empréstimo -->
           <button type="submit" class="btn btn-primary w-100 px-5 btn-lg rounded-pill" id="submitButton">
-            Concluir Empréstimo
+            Atualizar Empréstimo
           </button>
         </form>
 
@@ -163,17 +136,25 @@
 
     <script>
       $(document).ready(function () {
-        // Inicializar a máscara para o campo de Multa Aplicada
+        // Inicializar Select2 para o campo Cliente e Livro
+        $('#clienteId').select2({
+          placeholder: 'Escolha o Cliente',
+          allowClear: true
+        });
+
+        $('#livroId').select2({
+          placeholder: 'Escolha o Livro',
+          allowClear: true
+        });
+
+        // Máscara para o campo Multa Aplicada (R$ 0,00)
         $('#multaAplicada').mask('000.000.000.00', { reverse: true });
 
-        // Função para enviar o formulário
-        $('#formCadastro').submit(function (e) {
-          e.preventDefault();
+        // Substitui a vírgula por ponto antes de enviar o formulário
+        $('#formCadastro').submit(function () {
           var multaAplicada = $('#multaAplicada').val();
           multaAplicada = multaAplicada.replace('.', '.'); // Garante que o valor da multa tenha o formato correto
           $('#multaAplicada').val(multaAplicada);
-
-          // Aqui você pode adicionar a lógica para enviar o formulário ou validação
         });
       });
     </script>
