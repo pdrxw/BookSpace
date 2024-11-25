@@ -107,7 +107,32 @@
         <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
 
         <!-- Formulário de Conclusão de Empréstimo -->
-        <form action="/emprestimos/concluir/{id}" method="post" th:action="@{/emprestimos/concluir/{id}(id=${emprestimo.id})}" id="formConclusao">
+        <form action="/emprestimos/concluir/{id}" method="post" th:action="@{/emprestimos/concluir/{id}(id=${emprestimo.id})}" id="formCadastro">
+
+<div class="form-group">
+            <label for="clienteId">Selecione o Cliente</label>
+            <select class="form-control" id="clienteId" name="clienteId" required>
+              <option value="" disabled selected>Escolha o Cliente</option>
+              <!-- Exibir todos os clientes cadastrados -->
+              <th:block th:each="cliente : ${clientes}">
+                <option th:value="${cliente.id}" th:text="${cliente.nome}" th:selected="${cliente.id == emprestimo.cliente.id}"></option>
+              </th:block>
+            </select>
+          </div>
+
+          <!-- Campo para SeleÃ§Ã£o de Livro com pesquisa -->
+<div class="form-group">
+  <label for="livroId">Selecione o Livro</label>
+  <select class="form-control" id="livroId" name="livroId" required>
+    <option value="" disabled selected>Escolha o Livro</option>
+    <!-- Loop para exibir todos os livros cadastrados com status formatado ao lado do tÃ­tulo -->
+    <th:block th:each="livro : ${livros}">
+      <option th:value="${livro.id}" 
+              th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}"
+              th:selected="${livro.id == emprestimo.livro.id}"></option>
+    </th:block>
+  </select>
+</div>
 
           <!-- Campo para Data de Devolução -->
           <div class="form-group">
@@ -142,7 +167,7 @@
         $('#multaAplicada').mask('000.000.000.00', { reverse: true });
 
         // Função para enviar o formulário
-        $('#formConclusao').submit(function (e) {
+        $('#formCadastro').submit(function (e) {
           e.preventDefault();
           var multaAplicada = $('#multaAplicada').val();
           multaAplicada = multaAplicada.replace('.', '.'); // Garante que o valor da multa tenha o formato correto

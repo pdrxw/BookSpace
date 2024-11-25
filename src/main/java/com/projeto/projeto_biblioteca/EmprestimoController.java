@@ -256,17 +256,32 @@ public class EmprestimoController {
     @PostMapping("/concluir/{id}")
     public String concluirCadastro(
             @PathVariable("id") Long id,
+            @RequestParam Long clienteId,
+            @RequestParam Long livroId,
             @RequestParam String dataPrevistaDevolucao,
             @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada, // Novo parÃ¢metro orderBy
             Model model) {
-
+         
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
         if (emprestimo == null) {
             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
             return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
         }
 
+        // Verifica se o livro foi alterado
+        Long livroAntigoId = emprestimo.getLivro().getId();
+        if (!livroAntigoId.equals(livroId)) {
+            // Caso o livro tenha sido alterado:
+            // Alterar o status do livro antigo para "disponÃ­vel"
+            livroService.alterarStatusLivro(livroAntigoId, "disponivel");
+
+            // Alterar o status do novo livro para "indisponÃ­vel"
+            livroService.alterarStatusLivro(livroId, "emprestado");
+        }
+
         // Atualiza o emprÃ©stimo com os novos dados
+        emprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
+        emprestimo.setLivro(livroService.buscarLivroPorId(livroId));
         emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
         emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
 
