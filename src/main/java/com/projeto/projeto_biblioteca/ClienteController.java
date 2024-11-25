@@ -72,7 +72,7 @@ public class ClienteController {
             @RequestParam String nome,
             @RequestParam String email,
             @RequestParam String telefone,
-            @RequestParam String dataNascimento,  // A data continua como String
+            @RequestParam String dataNascimento,
             @RequestParam String cpf,
             Model model) {
 
@@ -80,9 +80,9 @@ public class ClienteController {
         novoCliente.setNome(nome);
         novoCliente.setEmail(email);
         novoCliente.setTelefone(telefone);
-        novoCliente.setDataNascimento(dataNascimento);  // Mantendo a data como String
+        novoCliente.setDataNascimento(dataNascimento);
         novoCliente.setCpf(cpf);
-        novoCliente.setDataCadastro("2024-11-22");  // A data de cadastro é uma String fixa (poderia ser `LocalDate.now()` em outro contexto)
+        novoCliente.setDataCadastro("2024-11-26");
 
         try {
             clienteService.salvarCliente(novoCliente);

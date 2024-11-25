@@ -140,6 +140,10 @@
       .btn-warning {
         color: white;
       }
+
+      .hidden {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -195,31 +199,34 @@
               <th>Cliente</th>
               <th>Livro</th>
               <th>Data do Empréstimo</th>
-              <th>Data de Devolução</th>
+              <th>Data Prevista de Devolução</th>
               <th>Status</th>
               <th>Multa</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="emprestimo : ${emprestimos}">
-              <td th:text="${emprestimo.id}"></td>
-              <td th:text="${emprestimo.cliente.nome}"></td>
-              <td th:text="${emprestimo.livro.titulo}"></td>
-              <td th:text="${emprestimo.dataRetirada}"></td>
-              <td th:text="${emprestimo.dataPrevistaDevolucao}"></td>
-              <td th:text="${#strings.capitalize(emprestimo.status)}"></td> <!-- Alteração aqui -->
-              <td th:text="${emprestimo.multaAplicada} + ' R$'"></td>
-              <td>
-                <div class="btn-container">
-                  <a th:href="@{/emprestimos/editar/{id}(id=${emprestimo.id})}" class="btn btn-primary">Editar</a>
-                  <form th:action="@{/emprestimos/remover/{id}(id=${emprestimo.id})}" method="post" style="display:inline;" onsubmit="return confirmarRemocao();">
-                    <button type="submit" class="btn btn-danger">Remover</button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+  <tr th:each="emprestimo : ${emprestimos}" 
+      th:classappend="${emprestimo.status == 'inativo' ? 'hidden' : ''}">
+    <td th:text="${emprestimo.id}"></td>
+    <td th:text="${emprestimo.cliente.nome}"></td>
+    <td th:text="${emprestimo.livro.titulo}"></td>
+    <td th:text="${emprestimo.dataRetirada}"></td>
+    <td th:text="${emprestimo.dataPrevistaDevolucao}"></td>
+    <td th:text="${#strings.capitalize(emprestimo.status)}"></td>
+    <td th:text="${emprestimo.multaAplicada} + ' R$'"></td>
+    <td>
+      <div class="btn-container">
+        <a th:href="@{/emprestimos/editar/{id}(id=${emprestimo.id})}" class="btn btn-primary">Editar</a>
+        <form th:action="@{/emprestimos/remover/{id}(id=${emprestimo.id})}" method="post" style="display:inline;" onsubmit="return confirmarRemocao();">
+          <button type="submit" class="btn btn-danger">Remover</button>
+        </form>
+        <!-- Novo botão Concluir Empréstimo -->
+        <a th:href="@{/emprestimos/concluir/{id}(id=${emprestimo.id})}" class="btn btn-success">Concluir Empréstimo</a>
+      </div>
+    </td>
+  </tr>
+</tbody>
         </table>
       </div>
     </div>
