@@ -93,14 +93,13 @@ public class EmprestimoService {
     }
 
     // Verifica se o livro já está emprestado (não devolvido)
-    // Verifica se o livro já está emprestado (não devolvido)
     public boolean isLivroEmprestado(Long livroId, String orderBy) {
     if (orderBy == null || orderBy.trim().isEmpty()) {
         orderBy = "dataRetirada";  // Definindo um valor padrão de ordenação pela data de retirada
     }
 
-    // Busca empréstimos ativos de um livro específico com status diferente de "devolvido" e ordena pelo parâmetro orderBy
-    List<Emprestimo> emprestimosAtivos = emprestimoRepository.findByLivro_IdAndStatusNot(livroId, "devolvido", Sort.by(orderBy));
+    // Busca empréstimos ativos de um livro específico com status diferente de "disponivel" e ordena pelo parâmetro orderBy
+    List<Emprestimo> emprestimosAtivos = emprestimoRepository.findByLivro_IdAndStatusNot(livroId, "inativo", Sort.by(orderBy));
     
     // Retorna verdadeiro se houver empréstimo ativo
     return !emprestimosAtivos.isEmpty();

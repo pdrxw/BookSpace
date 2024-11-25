@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listagem de Empréstimos</title>
+    <title>Empréstimos Ativos</title>
     <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
     <link
       rel="stylesheet"
@@ -151,7 +151,7 @@
       <div class="d-flex justify-content-between">
         <a class="btn btn-primary btn-lg m-2" href="/" role="button">Voltar</a>
 
-        <h1 class="text-center mt-2">Listagem de Empréstimos</h1>
+        <h1 class="text-center mt-2">Empréstimos Ativos</h1>
 
         <a
           class="btn btn-success btn-lg m-2"
@@ -222,8 +222,8 @@
               <th>Livro</th>
               <th>Data do Empréstimo</th>
               <th>Data Prevista de Devolução</th>
-              <th>Status</th>
-              <th>Multa</th>
+              <!-- <th>Status</th>
+              <th>Multa</th> -->
               <th>Ações</th>
             </tr>
           </thead>
@@ -239,8 +239,8 @@
               <td th:text="${emprestimo.livro.titulo}"></td>
               <td th:text="${emprestimo.dataRetirada}"></td>
               <td th:text="${emprestimo.dataPrevistaDevolucao}"></td>
-              <td th:text="${#strings.capitalize(emprestimo.status)}"></td>
-              <td th:text="${emprestimo.multaAplicada} + ' R$'"></td>
+              <!-- <td th:text="${#strings.capitalize(emprestimo.status)}"></td>
+              <td th:text="${emprestimo.multaAplicada} + ' R$'"></td> -->
               <td>
                 <div class="btn-container">
                   <a

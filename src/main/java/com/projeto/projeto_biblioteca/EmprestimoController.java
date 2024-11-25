@@ -27,8 +27,8 @@ public class EmprestimoController {
     @Autowired
     private LivroService livroService;
 
-    // @Autowired
-    // private HistoricoEmprestimoService historicoEmprestimoService;
+    @Autowired
+    private HistoricoEmprestimoService historicoEmprestimoService;
 
     // Listar emprÃ©stimos com pesquisa e ordenaÃ§Ã£o
     @GetMapping
@@ -237,21 +237,40 @@ public class EmprestimoController {
     public String concluirCadastro(
             @PathVariable("id") Long id,
             @RequestParam String dataDevolucao,
+            @RequestParam String dataPrevistaDevolucao,
             @RequestParam(value = "multaAplicada", defaultValue = "0") String multaAplicada,
+            @RequestParam(value = "status", defaultValue = "inativo" ) String status,
+            @RequestParam Long clienteId,
+            @RequestParam Long livroId,
             Model model) {
 
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(id);
+        HistoricoEmprestimo historicoEmprestimo = new HistoricoEmprestimo();
+
         if (emprestimo == null) {
             model.addAttribute("error", "EmprÃ©stimo nÃ£o encontrado.");
-            return "redirect:/emprestimos"; // Se o emprÃ©stimo nÃ£o for encontrado, redireciona para a lista
+            return "redirect:/emprestimos";
         }
 
-        emprestimo.setDataPrevistaDevolucao(dataDevolucao);
+        Long livroStatus = emprestimo.getLivro().getId();
+
+        historicoEmprestimo.setLivro(livroService.buscarLivroPorId(livroId));
+        historicoEmprestimo.setEmprestimo(emprestimo);
+        historicoEmprestimo.setCliente(clienteService.buscarClientePorId(clienteId));
+        historicoEmprestimo.setDataRetirada(emprestimo.getDataRetirada());
+        historicoEmprestimo.setDataDevolucaoPrevista(emprestimo.getDataPrevistaDevolucao());
+        historicoEmprestimo.setDataDevolucaoReal(dataDevolucao);
+        historicoEmprestimo.setMulta(Double.parseDouble(multaAplicada.replace(",", ".")));
+        historicoEmprestimo.setStatus(emprestimo.getStatus());
+        livroService.alterarStatusLivro(livroStatus, "disponivel");
+        emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
         emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
+        emprestimo.setStatus(status);
 
         try {
             // Salva o emprÃ©stimo atualizado
             emprestimoService.salvarEmprestimo(emprestimo);
+            historicoEmprestimoService.salvarHistoricoEmprestimo(historicoEmprestimo);
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", "Erro ao atualizar o emprÃ©stimo.");
             List<Cliente> clientes = clienteService.listarClientesOrdenados("id");

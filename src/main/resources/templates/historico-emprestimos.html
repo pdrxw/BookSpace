@@ -195,7 +195,6 @@
               <th>Data do Empréstimo</th>
               <th>Data Prevista de Devolução</th>
               <th>Data de Devolução</th>
-              <th>Status</th>
               <th>Multa</th>
             </tr>
           </thead>
@@ -207,7 +206,6 @@
               <td th:text="${historico.dataRetirada}"></td>
               <td th:text="${historico.dataDevolucaoPrevista}"></td>
               <td th:text="${historico.dataDevolucaoReal}"></td>
-              <td th:text="${#strings.capitalize(historico.status)}"></td> <!-- Altera��o aqui -->
               <td th:text="${historico.multa} + ' R$'"></td>
               </td>
             </tr>

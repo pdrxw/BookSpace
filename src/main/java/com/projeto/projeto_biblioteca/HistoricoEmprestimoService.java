@@ -95,6 +95,6 @@ public class HistoricoEmprestimoService {
     // Verifica se o empréstimo já foi devolvido
     public boolean isEmprestimoDevolvido(Long emprestimoId) {
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(emprestimoId);
-        return emprestimo != null && "devolvido".equals(emprestimo.getStatus());
+        return emprestimo != null && "disponivel".equals(emprestimo.getStatus());
     }
 }

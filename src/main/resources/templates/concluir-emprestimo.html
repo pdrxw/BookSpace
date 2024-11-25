@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edição de Empréstimo - BookSpace</title>
+    <title>Conclusão de Empréstimo - BookSpace</title>
     <link rel="icon" href="https://i.imgur.com/UQtzrnL.png" type="image/png" />
     <link
       rel="stylesheet"
@@ -105,12 +105,12 @@
   <body>
     <main class="container">
       <div class="cadastro-box">
-        <h1>Edição de Empréstimo</h1>
+        <h1>Conclusão do Empréstimo</h1>
 
         <!-- Exibir erro, se houver -->
         <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
 
-        <!-- Formulário de Edição de Empréstimo -->
+        <!-- FormulÃ¡rio de EdiÃ§Ã£o de EmprÃ©stimo -->
         <form
           action="/emprestimos/concluir/{id}"
           method="post"
@@ -118,13 +118,72 @@
           id="formCadastro"
         >
           <div class="form-group">
-            <label for="dataDevolucao">Data Prevista de Devolução</label>
+            <label for="clienteId">Cliente</label>
+            <select
+              class="form-control"
+              id="clienteId"
+              name="clienteId"
+              required
+            >
+              <option value="" disabled selected>Cliente</option>
+              <!-- Exibir todos os clientes cadastrados -->
+              <th:block th:each="cliente : ${clientes}">
+                <option
+                  th:value="${cliente.id}"
+                  th:text="${cliente.nome}"
+                  th:selected="${cliente.id == emprestimo.cliente.id}"
+                ></option>
+              </th:block>
+            </select>
+            <!-- Campo oculto para armazenar o valor do clienteId -->
+            <input
+              type="hidden"
+              id="clienteIdHidden"
+              name="clienteId"
+              th:value="${emprestimo.cliente.id}"
+            />
+          </div>
+
+          <!-- Campo para Seleção de Livro com pesquisa -->
+          <div class="form-group">
+            <label for="livroId">Livro</label>
+            <select class="form-control" id="livroId" name="livroId" required>
+              <option value="" disabled selected>Livro</option>
+              <th:block th:each="livro : ${livros}">
+                <option
+                  th:value="${livro.id}"
+                  th:text="${livro.titulo + ' (' + #strings.capitalize(livro.status) + ')'}"
+                  th:selected="${livro.id == emprestimo.livro.id}"
+                ></option>
+              </th:block>
+            </select>
+            <!-- Campo oculto para armazenar o valor do livroId -->
+            <input
+              type="hidden"
+              id="livroIdHidden"
+              name="livroId"
+              th:value="${emprestimo.livro.id}"
+            />
+          </div>
+
+          <div class="form-group">
+            <input
+              type="hidden"
+              class="form-control"
+              id="dataPrevistaDevolucao"
+              name="dataPrevistaDevolucao"
+              th:value="${emprestimo.dataPrevistaDevolucao}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dataDevolucao">Data de Devolução</label>
             <input
               type="date"
               class="form-control"
               id="dataDevolucao"
               name="dataDevolucao"
-              th:value="${emprestimo.dataDevolucao}"
+              value="2024-11-26"
               required
             />
           </div>
@@ -137,7 +196,6 @@
               id="multaAplicada"
               name="multaAplicada"
               placeholder="Digite o valor da multa"
-              th:value="${emprestimo.multaAplicada}"
             />
           </div>
 
@@ -146,7 +204,7 @@
             class="btn btn-primary w-100 px-5 btn-lg rounded-pill"
             id="submitButton"
           >
-            Atualizar Empréstimo
+            Concluir Empréstimo
           </button>
         </form>
 
@@ -161,16 +219,10 @@
 
     <script>
       $(document).ready(function () {
-        // Inicializar Select2 para o campo Cliente e Livro
-        $("#clienteId").select2({
-          placeholder: "Escolha o Cliente",
-          allowClear: true,
-        });
-
-        $("#livroId").select2({
-          placeholder: "Escolha o Livro",
-          allowClear: true,
-        });
+        // Desabilitar os selects de Cliente e Livro
+        $("#clienteId").prop("disabled", true);
+        $("#livroId").prop("disabled", true);
+        // $("#dataPrevistaDevolucao").prop("disabled", true);
 
         // Máscara para o campo Multa Aplicada (R$ 0,00)
         $("#multaAplicada").mask("000.000.000.00", { reverse: true });

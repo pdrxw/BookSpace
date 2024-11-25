@@ -35,13 +35,7 @@ public class HistoricoEmprestimo {
     private double multa;  // Multa aplicada no histórico
 
     private String status;  // Status do empréstimo (ativo, finalizado, cancelado)
-
-    // @Column(name = "created_at", updatable = false)
-    // private Timestamp createdAt;  // Timestamp de criação
-
-    // @Column(name = "updated_at")
-    // private Timestamp updatedAt;  // Timestamp de atualização
-
+    
     // Getters e Setters
     public Long getId() {
         return id;
