@@ -29,6 +29,8 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
 
     // Novo método para buscar livros que contenham a string no título, autor, categoria ou editora,
     // ignorando maiúsculas/minúsculas, e ordenando de acordo com o parâmetro 'Sort'
-    List<Livro> findByTituloContainingIgnoreCaseOrAutorContainingIgnoreCaseOrCategoriaContainingIgnoreCaseOrEditoraContainingIgnoreCase(
-            String titulo, String autor, String categoria, String editora, Sort sort);
+    // Adicionar o campo status à busca por múltiplos termos
+    List<Livro> findByTituloContainingIgnoreCaseOrAutorContainingIgnoreCaseOrCategoriaContainingIgnoreCaseOrEditoraContainingIgnoreCaseOrStatusContainingIgnoreCase(
+        String titulo, String autor, String categoria, String editora, String status, Sort sort);
+
 }

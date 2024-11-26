@@ -22,51 +22,54 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @Autowired
-    private LivroService livroService; // ServiÁo para acessar livros
+    private ClienteRepository clienteRepository;
 
-    // Listar clientes com pesquisa e ordenaÁ„o
+    @Autowired
+    private LivroService livroService; // Servi√ßo para acessar livros
+
+    // Listar clientes com pesquisa e ordena√ß√£o
     @GetMapping
     public String listarClientes(
         @RequestParam(value = "order_by", defaultValue = "id") String orderBy,
-        @RequestParam(value = "search", required = false) String search,  // Recebe o par‚metro 'search' para a pesquisa
+        @RequestParam(value = "search", required = false) String search,  // Recebe o par√¢metro 'search' para a pesquisa
         Model model, HttpSession session) {
         
         if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login"; // Redireciona para login se n„o estiver logado
+            return "redirect:/login"; // Redireciona para login se n√£o estiver logado
         }
 
         List<Cliente> clientes;
 
         if (search != null && !search.trim().isEmpty()) {
-            // Se houver valor em 'search', busca clientes por m˙ltiplos campos com ordenaÁ„o
+            // Se houver valor em 'search', busca clientes por m√∫ltiplos campos com ordena√ß√£o
             clientes = clienteService.buscarClientesPorCampos(search, orderBy);
         } else {
-            // Caso contr·rio, apenas lista os clientes com a ordenaÁ„o
+            // Caso contr√°rio, apenas lista os clientes com a ordena√ß√£o
             clientes = clienteService.listarClientesOrdenados(orderBy);
         }
 
         // Adiciona os clientes na model
         model.addAttribute("clientes", clientes);
-        model.addAttribute("search", search);  // Para manter o valor da pesquisa na p·gina
+        model.addAttribute("search", search);  // Para manter o valor da pesquisa na p√°gina
 
-        return "clientes";  // Retorna a p·gina de clientes
+        return "clientes";  // Retorna a p√°gina de clientes
     }
 
-    // P·gina para o formul·rio de cadastro de clientes
+    // P√°gina para o formul√°rio de cadastro de clientes
     @GetMapping("/cadastro")
     public String cadastroCliente(Model model) {
         // Carregando as listas de clientes e livros para preencher os selects
         List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
-        List<Livro> livros = livroService.listarLivrosOrdenados("id"); // Ou outro mÈtodo que vocÍ tenha para listar os livros
+        List<Livro> livros = livroService.listarLivrosOrdenados("id"); // Ou outro m√©todo que voc√™ tenha para listar os livros
 
         // Adicionando as listas ao modelo
         model.addAttribute("clientes", clientes);
         model.addAttribute("livros", livros);
 
-        return "cadastro-cliente"; // P·gina HTML para cadastro de cliente
+        return "cadastro-cliente"; // P√°gina HTML para cadastro de cliente
     }
 
-    // MÈtodo para cadastrar um novo cliente
+    // M√©todo para cadastrar um novo cliente
     @PostMapping("/cadastro")
     public String cadastrarCliente(
             @RequestParam String nome,
@@ -76,6 +79,22 @@ public class ClienteController {
             @RequestParam String cpf,
             Model model) {
 
+        if (clienteRepository.findByCpf(cpf) != null) { 
+            model.addAttribute("error", "CPF j√° cadastrado."); 
+            return "cadastro-cliente"; // Retorna √É¬† p√É¬°gina de cadastro com erro
+        } // Verifica se o cliente existe
+
+        if (clienteRepository.findByEmail(email) != null) {
+            model.addAttribute("error", "E-mail j√° cadastrado.");
+            return "cadastro-cliente"; // Retorna √É¬† p√É¬°gina de cadastro com erro
+        }
+
+        if (clienteRepository.findByTelefone(telefone) != null) {
+            model.addAttribute("error", "Telefone j√° cadastrado.");
+            return "cadastro-cliente"; // Retorna √É¬† p√É¬°gina de cadastro com erro
+        }
+
+        // Cria um novo cliente 
         Cliente novoCliente = new Cliente();
         novoCliente.setNome(nome);
         novoCliente.setEmail(email);
@@ -89,38 +108,38 @@ public class ClienteController {
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", "Erro ao salvar o cliente.");
             
-            // Carregando as listas de clientes e livros para preencher os selects na p·gina de cadastro
+            // Carregando as listas de clientes e livros para preencher os selects na p√°gina de cadastro
             List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
             List<Livro> livros = livroService.listarLivrosOrdenados("id");
             model.addAttribute("clientes", clientes);
             model.addAttribute("livros", livros);
 
-            return "cadastro-cliente"; // Retorna ‡ p·gina de cadastro de cliente com erro
+            return "cadastro-cliente"; // Retorna √† p√°gina de cadastro de cliente com erro
         }
 
-        return "redirect:/clientes"; // Redireciona para a lista de clientes apÛs o cadastro
+        return "redirect:/clientes"; // Redireciona para a lista de clientes ap√≥s o cadastro
     }
 
-    // MÈtodo para exibir a p·gina de ediÁ„o de cliente
+    // M√©todo para exibir a p√°gina de edi√ß√£o de cliente
     @GetMapping("/editar/{id}")
     public String editarCliente(@PathVariable("id") Long id, Model model) {
         Cliente cliente = clienteService.buscarClientePorId(id);
         if (cliente == null) {
-            model.addAttribute("error", "Cliente n„o encontrado.");
-            return "redirect:/clientes"; // Se o cliente n„o for encontrado, redireciona para a lista
+            model.addAttribute("error", "Cliente n√£o encontrado.");
+            return "redirect:/clientes"; // Se o cliente n√£o for encontrado, redireciona para a lista
         }
-        model.addAttribute("cliente", cliente); // Passa o cliente para o formul·rio de ediÁ„o
+        model.addAttribute("cliente", cliente); // Passa o cliente para o formul√°rio de edi√ß√£o
 
-        // Carregando as listas de clientes e livros para preencher os selects na p·gina de ediÁ„o
+        // Carregando as listas de clientes e livros para preencher os selects na p√°gina de edi√ß√£o
         List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
         List<Livro> livros = livroService.listarLivrosOrdenados("id");
         model.addAttribute("clientes", clientes);
         model.addAttribute("livros", livros);
 
-        return "editar-cliente"; // P·gina de ediÁ„o de cliente
+        return "editar-cliente"; // P√°gina de edi√ß√£o de cliente
     }
 
-    // MÈtodo para atualizar o cliente apÛs a ediÁ„o
+    // M√©todo para atualizar o cliente ap√≥s a edi√ß√£o
     @PostMapping("/editar/{id}")
     public String atualizarCliente(
             @PathVariable("id") Long id,
@@ -130,11 +149,11 @@ public class ClienteController {
             @RequestParam String dataNascimento,  // A data continua como String
             @RequestParam String cpf,
             Model model) {
-        
+
         Cliente cliente = clienteService.buscarClientePorId(id);
         if (cliente == null) {
-            model.addAttribute("error", "Cliente n„o encontrado.");
-            return "redirect:/clientes"; // Se o cliente n„o for encontrado, redireciona para a lista
+            model.addAttribute("error", "Cliente n√£o encontrado.");
+            return "redirect:/clientes"; // Se o cliente n√£o for encontrado, redireciona para a lista
         }
 
         cliente.setNome(nome);
@@ -148,28 +167,28 @@ public class ClienteController {
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", "Erro ao atualizar o cliente.");
             
-            // Carregando as listas de clientes e livros para preencher os selects na p·gina de ediÁ„o
+            // Carregando as listas de clientes e livros para preencher os selects na p√°gina de edi√ß√£o
             List<Cliente> clientes = clienteService.listarClientesOrdenados("id");
             List<Livro> livros = livroService.listarLivrosOrdenados("id");
             model.addAttribute("clientes", clientes);
             model.addAttribute("livros", livros);
 
-            return "editar-cliente"; // Retorna ‡ p·gina de ediÁ„o de cliente com erro
+            return "editar-cliente"; // Retorna √† p√°gina de edi√ß√£o de cliente com erro
         }
 
-        return "redirect:/clientes"; // Redireciona para a lista de clientes apÛs a atualizaÁ„o
+        return "redirect:/clientes"; // Redireciona para a lista de clientes ap√≥s a atualiza√ß√£o
     }
 
-    // MÈtodo para remover um cliente
+    // M√©todo para remover um cliente
     @PostMapping("/remover/{id}")
     public String removerCliente(@PathVariable("id") Long id, Model model) {
         try {
-            clienteService.removerCliente(id); // Chama o serviÁo para remover o cliente
+            clienteService.removerCliente(id); // Chama o servi√ßo para remover o cliente
         } catch (Exception e) {
             model.addAttribute("error", "Erro ao remover o cliente.");
             return "redirect:/clientes"; // Se houver erro, redireciona para a lista
         }
 
-        return "redirect:/clientes"; // Redireciona para a lista de clientes apÛs a remoÁ„o
+        return "redirect:/clientes"; // Redireciona para a lista de clientes ap√≥s a remo√ß√£o
     }
 }

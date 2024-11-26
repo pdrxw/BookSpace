@@ -146,7 +146,7 @@ public class EmprestimoController {
             @RequestParam String dataRetirada,
             @RequestParam String dataPrevistaDevolucao,
             // @RequestParam String multaAplicada,
-            @RequestParam String status,
+            // @RequestParam String status,
             @RequestParam(value = "order_by", defaultValue = "dataRetirada") String orderBy, // Novo parÃ¢metro orderBy
             Model model) {
 
@@ -173,7 +173,7 @@ public class EmprestimoController {
         emprestimo.setDataRetirada(dataRetirada);
         emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
         // emprestimo.setMultaAplicada(Double.parseDouble(multaAplicada.replace(",", ".")));
-        emprestimo.setStatus(status);
+        // emprestimo.setStatus(status);
 
         try {
             // Salva o emprÃ©stimo atualizado

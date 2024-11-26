@@ -54,4 +54,21 @@ public class ClienteService {
     public void removerCliente(Long id) {
         clienteRepository.deleteById(id); // Deleta o cliente pelo ID
     }
+
+    // Buscar cliente por e-mail
+    public Cliente buscarClientePorEmail(String email) {
+        return clienteRepository.findByEmail(email); // Busca o cliente pelo e-mail
+    }
+
+    // Buscar cliente por telefone
+    public Cliente buscarClientePorTelefone(String telefone) {
+        return clienteRepository.findByTelefone(telefone); // Busca o cliente pelo telefone
+    }  
+
+    // Buscar cliente por CPF
+    public Cliente buscarClientePorCpf(String cpf) {
+        return clienteRepository.findByCpf(cpf); // Busca o cliente pelo CPF
+    }
+    
+
 }

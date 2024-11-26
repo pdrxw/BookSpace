@@ -98,6 +98,8 @@
       <div class="cadastro-box">
         <h1>Cadastro de Cliente</h1>
 
+        <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
+
         <form action="/clientes/cadastro" method="post">
           <!-- Campo para Nome -->
           <div class="form-group">
@@ -160,20 +162,6 @@
               name="cpf"
               placeholder="Digite o CPF do cliente"
               required
-            />
-          </div>
-
-          <!-- Campo para Livros Emprestados -->
-          <div class="form-group">
-            <label for="livrosEmprestados">Livros Emprestados</label>
-            <input
-              type="number"
-              class="form-control"
-              id="livrosEmprestados"
-              name="livrosEmprestados"
-              placeholder="Quantos livros o cliente tem emprestados"
-              required
-              min="0"
             />
           </div>
 

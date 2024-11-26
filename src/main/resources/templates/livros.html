@@ -183,10 +183,19 @@
               Categoria
             </option>
             <option
+              value="editora"
+              th:selected="${param.order_by == 'editora'}"
+            >
+              Editora
+            </option>
+            <option
               value="dataAdmissao"
               th:selected="${param.order_by == 'dataAdmissao'}"
             >
               Data de Admissão
+            </option>
+            <option value="status" th:selected="${param.order_by == 'status'}">
+              Status
             </option>
           </select>
         </form>

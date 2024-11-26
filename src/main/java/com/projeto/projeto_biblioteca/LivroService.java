@@ -28,16 +28,18 @@ public class LivroService {
     }
 
     // Método para buscar livros por múltiplos termos (título, autor, categoria, editora) com pesquisa parcial e ordenação
+    // Método para buscar livros por múltiplos termos (título, autor, categoria, editora, status)
     public List<Livro> buscarLivrosPorMultiplosTermos(String search, String orderBy) {
-        // Verifica se o parâmetro 'orderBy' está vazio e aplica uma ordenação padrão
-        if (orderBy == null || orderBy.trim().isEmpty()) {
-            orderBy = "id"; // Default ordering by 'id' caso não seja especificado
-        }
-
-        // Realiza a busca pelos múltiplos termos fornecidos (título, autor, categoria, editora)
-        return livroRepository.findByTituloContainingIgnoreCaseOrAutorContainingIgnoreCaseOrCategoriaContainingIgnoreCaseOrEditoraContainingIgnoreCase(
-                search, search, search, search, Sort.by(orderBy));
+    // Verifica se o parâmetro 'orderBy' está vazio e aplica uma ordenação padrão
+    if (orderBy == null || orderBy.trim().isEmpty()) {
+        orderBy = "id"; // Default ordering by 'id' caso não seja especificado
     }
+
+    // Realiza a busca pelos múltiplos termos fornecidos (título, autor, categoria, editora, status)
+    return livroRepository.findByTituloContainingIgnoreCaseOrAutorContainingIgnoreCaseOrCategoriaContainingIgnoreCaseOrEditoraContainingIgnoreCaseOrStatusContainingIgnoreCase(
+            search, search, search, search, search, Sort.by(orderBy));
+    }
+
 
     // Salvar ou atualizar um livro
     public void salvarLivro(Livro livro) {

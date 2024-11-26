@@ -29,4 +29,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     // Método para buscar clientes que contenham a string no nome, ignorando maiúsculas/minúsculas,
     // e ordenando de acordo com o parâmetro 'Sort' (já existente)
     List<Cliente> findByNomeContainingIgnoreCase(String nome, Sort sort);
+
 }
