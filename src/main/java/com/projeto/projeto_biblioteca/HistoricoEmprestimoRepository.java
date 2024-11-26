@@ -7,23 +7,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HistoricoEmprestimoRepository extends JpaRepository<HistoricoEmprestimo, Long> {
 
-    // Busca históricos de empréstimos pelo nome do cliente ou título do livro (ignorando maiúsculas/minúsculas)
+    // Busca histÃ³ricos de emprÃ©stimos pelo nome do cliente ou tÃ­tulo do livro (ignorando maiÃºsculas/minÃºsculas)
     List<HistoricoEmprestimo> findByClienteNomeContainingIgnoreCaseOrLivroTituloContainingIgnoreCase(
             String nomeCliente, String tituloLivro, Sort sort);
 
-    // Busca históricos de empréstimos pelo ID do cliente com ordenação
+    // Busca histÃ³ricos de emprÃ©stimos pelo ID do cliente com ordenaÃ§Ã£o
     List<HistoricoEmprestimo> findByClienteId(Long clienteId, Sort sort);
 
-    // Busca históricos de empréstimos pelo ID do livro com ordenação
+    // Busca histÃ³ricos de emprÃ©stimos pelo ID do livro com ordenaÃ§Ã£o
     List<HistoricoEmprestimo> findByLivroId(Long livroId, Sort sort);
 
-    // Busca históricos de empréstimos pelo status (concluído, ativo, etc.) com ordenação
+    // Busca histÃ³ricos de emprestimos pelo status (concluÃ­do, ativo, etc.) com ordenacao
     List<HistoricoEmprestimo> findByStatus(String status, Sort sort);
 
-    // Método para busca customizada, por múltiplos campos, conforme necessário
+    // MÃ©todo para busca customizada, por mÃºltiplos campos, conforme necessÃ¡rio
     List<HistoricoEmprestimo> findByClienteNomeContainingIgnoreCaseAndLivroTituloContainingIgnoreCase(
             String nomeCliente, String tituloLivro, Sort sort);
 
-    // Busca históricos de empréstimos ativos de um livro específico (livro não devolvido)
+    // Busca histÃ³ricos de emprÃ©stimos ativos de um livro especÃ­fico (livro nÃ£o devolvido)
     List<HistoricoEmprestimo> findByLivro_IdAndStatusNot(Long livroId, String status, Sort sort);
 }

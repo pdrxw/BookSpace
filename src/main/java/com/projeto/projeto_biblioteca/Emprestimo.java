@@ -94,12 +94,10 @@ public class Emprestimo {
     }
 
     public void setClienteId(Long clienteId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setClienteId'");
     }
 
     public void setLivroId(Long livroId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setLivroId'");
     }
 }

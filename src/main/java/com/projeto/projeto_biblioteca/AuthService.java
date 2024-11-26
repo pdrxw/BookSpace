@@ -21,6 +21,6 @@ public class AuthService {
     }
 
     public void logout(HttpSession session) {
-        session.invalidate(); // Invalida a sessão
+        session.invalidate();
     }
 }

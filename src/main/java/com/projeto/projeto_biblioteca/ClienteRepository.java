@@ -9,25 +9,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    // Método para buscar cliente pelo nome exato
+    // MÃ©todo para buscar cliente pelo nome exato
     Cliente findByNome(String nome);
 
-    // Método para buscar cliente pelo CPF
+    // MÃ©todo para buscar cliente pelo CPF
     Cliente findByCpf(String cpf);
 
-    // Método para buscar cliente pelo e-mail
+    // MÃ©todo para buscar cliente pelo e-mail
     Cliente findByEmail(String email);
 
-    // Método para buscar cliente pelo telefone
+    // MÃ©todo para buscar cliente pelo telefone
     Cliente findByTelefone(String telefone);
 
-    // Novo método para buscar clientes que contenham a string no nome, e-mail, telefone ou CPF,
-    // ignorando maiúsculas/minúsculas, e ordenando de acordo com o parâmetro 'Sort'
+    // Novo mÃ©todo para buscar clientes que contenham a string no nome, e-mail, telefone ou CPF,
+    // ignorando maiÃºsculas/minÃºsculas, e ordenando de acordo com o parÃ¢metro 'Sort'
     List<Cliente> findByNomeContainingIgnoreCaseOrEmailContainingIgnoreCaseOrTelefoneContainingIgnoreCaseOrCpfContainingIgnoreCase(
             String nome, String email, String telefone, String cpf, Sort sort);
     
-    // Método para buscar clientes que contenham a string no nome, ignorando maiúsculas/minúsculas,
-    // e ordenando de acordo com o parâmetro 'Sort' (já existente)
+    // MÃ©todo para buscar clientes que contenham a string no nome, ignorando maiÃºsculas/minÃºsculas,
+    // e ordenando de acordo com o parÃ¢metro 'Sort' (jÃ¡ existente)
     List<Cliente> findByNomeContainingIgnoreCase(String nome, Sort sort);
 
 }

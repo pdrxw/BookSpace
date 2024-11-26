@@ -18,7 +18,7 @@ public class HistoricoEmprestimoController {
     @Autowired
     private HistoricoEmprestimoService historicoEmprestimoService;
 
-    // Listar histórico de empréstimos com pesquisa e ordenação
+    // Listar histÃ³rico de emprÃ©stimos com pesquisa e ordenaÃ§Ã£o
     @GetMapping
     public String listarHistoricoEmprestimos(
         @RequestParam(value = "order_by", defaultValue = "id") String orderBy,
@@ -26,23 +26,23 @@ public class HistoricoEmprestimoController {
         Model model, HttpSession session) {
 
         if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login"; // Redireciona para login se não estiver logado
+            return "redirect:/login"; // Redireciona para login se nÃ£o estiver logado
         }
 
         List<HistoricoEmprestimo> historicos;
 
         if (search != null && !search.trim().isEmpty()) {
-            // Se houver valor em 'search', busca históricos por múltiplos campos
+            // Se houver valor em 'search', busca histÃ³ricos por multiplos campos
             historicos = historicoEmprestimoService.buscarHistoricoPorCampos(search, orderBy);
         } else {
-            // Caso contrário, apenas lista os históricos com a ordenação
+            // Caso contrÃ¡rio, apenas lista os histÃ³ricos com a ordenacao
             historicos = historicoEmprestimoService.listarHistoricoEmprestimosOrdenados(orderBy);
         }
 
         model.addAttribute("historicos", historicos);
-        model.addAttribute("search", search); // Para manter o valor da pesquisa na página
+        model.addAttribute("search", search); // Para manter o valor da pesquisa na pÃ¡gina
 
-        return "historico-emprestimos"; // Página de lista de histórico de empréstimos
+        return "historico-emprestimos"; // Pagina de lista de histÃ³rico de emprestimos
     }
 
  

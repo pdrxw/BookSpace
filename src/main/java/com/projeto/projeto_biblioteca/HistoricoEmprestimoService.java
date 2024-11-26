@@ -14,14 +14,14 @@ public class HistoricoEmprestimoService {
     private HistoricoEmprestimoRepository historicoEmprestimoRepository;
 
     @Autowired
-    private EmprestimoService emprestimoService;  // Serviço para gerenciar empréstimos
+    private EmprestimoService emprestimoService;  // ServiÃ§o para gerenciar emprÃ©stimos
 
-    // Listar todos os históricos de empréstimos
+    // Listar todos os histÃ³ricos de emprÃ©stimos
     public List<HistoricoEmprestimo> listarHistoricoEmprestimos() {
         return historicoEmprestimoRepository.findAll();
     }
 
-    // Método para listar históricos de empréstimos ordenados de acordo com o critério
+    // MÃ©todo para listar histÃ³ricos de emprÃ©stimos ordenados de acordo com o critÃ©rio
     public List<HistoricoEmprestimo> listarHistoricoEmprestimosOrdenados(String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -29,18 +29,18 @@ public class HistoricoEmprestimoService {
         return historicoEmprestimoRepository.findAll(Sort.by(orderBy));
     }
 
-    // Buscar históricos de empréstimos por cliente, livro ou outros campos com pesquisa parcial e ordenação
+    // Buscar histÃ³ricos de emprÃ©stimos por cliente, livro ou outros campos com pesquisa parcial e ordenaÃ§Ã£o
     public List<HistoricoEmprestimo> buscarHistoricoPorCampos(String search, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
         }
 
-        // Busca históricos pelo nome do cliente ou título do livro, com busca parcial e ignorando maiúsculas/minúsculas
+        // Busca histÃ³ricos pelo nome do cliente ou tÃ­tulo do livro, com busca parcial e ignorando maiÃºsculas/minÃºsculas
         return historicoEmprestimoRepository.findByClienteNomeContainingIgnoreCaseOrLivroTituloContainingIgnoreCase(
                 search, search, Sort.by(orderBy));
     }
 
-    // Buscar histórico de empréstimo por clienteId com pesquisa parcial e ordenação
+    // Buscar histÃ³rico de emprÃ©stimo por clienteId com pesquisa parcial e ordenaÃ§Ã£o
     public List<HistoricoEmprestimo> buscarHistoricoPorClienteId(Long clienteId, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -49,7 +49,7 @@ public class HistoricoEmprestimoService {
         return historicoEmprestimoRepository.findByClienteId(clienteId, Sort.by(orderBy));
     }
 
-    // Buscar histórico de empréstimo por livroId com pesquisa parcial e ordenação
+    // Buscar histÃ³rico de emprÃ©stimo por livroId com pesquisa parcial e ordenaÃ§Ã£o
     public List<HistoricoEmprestimo> buscarHistoricoPorLivroId(Long livroId, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -58,7 +58,7 @@ public class HistoricoEmprestimoService {
         return historicoEmprestimoRepository.findByLivroId(livroId, Sort.by(orderBy));
     }
 
-    // Buscar histórico de empréstimo por status
+    // Buscar histÃ³rico de emprÃ©stimo por status
     public List<HistoricoEmprestimo> buscarHistoricoPorStatus(String status, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -67,32 +67,32 @@ public class HistoricoEmprestimoService {
         return historicoEmprestimoRepository.findByStatus(status, Sort.by(orderBy));
     }
 
-    // Salvar ou atualizar um histórico de empréstimo
+    // Salvar ou atualizar um histÃ³rico de emprÃ©stimo
     public void salvarHistoricoEmprestimo(HistoricoEmprestimo historicoEmprestimo) {
         historicoEmprestimoRepository.save(historicoEmprestimo);
     }
 
-    // Buscar histórico de empréstimo por ID
+    // Buscar histÃ³rico de emprÃ©stimo por ID
     public HistoricoEmprestimo buscarHistoricoEmprestimoPorId(Long id) {
         Optional<HistoricoEmprestimo> historicoEmprestimo = historicoEmprestimoRepository.findById(id);
-        return historicoEmprestimo.orElse(null); // Retorna o histórico ou null
+        return historicoEmprestimo.orElse(null); // Retorna o histÃ³rico ou null
     }
 
-    // Remover um histórico de empréstimo por ID
+    // Remover um histÃ³rico de emprÃ©stimo por ID
     public void removerHistoricoEmprestimo(Long id) {
         historicoEmprestimoRepository.deleteById(id);
     }
 
-    // Alterar o status de um empréstimo
+    // Alterar o status de um emprÃ©stimo
     public void alterarStatusEmprestimo(Long emprestimoId, String status) {
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(emprestimoId);
         if (emprestimo != null) {
             emprestimo.setStatus(status);  // Atualiza o status
-            emprestimoService.salvarEmprestimo(emprestimo);  // Salva o empréstimo com o novo status
+            emprestimoService.salvarEmprestimo(emprestimo);  // Salva o emprÃ©stimo com o novo status
         }
     }
 
-    // Verifica se o empréstimo já foi devolvido
+    // Verifica se o emprÃ©stimo jÃ¡ foi devolvido
     public boolean isEmprestimoDevolvido(Long emprestimoId) {
         Emprestimo emprestimo = emprestimoService.buscarEmprestimoPorId(emprestimoId);
         return emprestimo != null && "disponivel".equals(emprestimo.getStatus());

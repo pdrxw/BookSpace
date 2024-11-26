@@ -21,7 +21,7 @@ public class MyController {
 
     @GetMapping("/login")
     public String loginPage() {
-        return "login"; // PÃ¡gina de login
+        return "login";
     }
 
     @PostMapping("/login")
@@ -32,39 +32,39 @@ public class MyController {
             Model model) {
 
         if (authService.autenticar(usuario, senha, session)) {
-            return "redirect:/"; // Redireciona para a pÃ¡gina inicial
+            return "redirect:/";
         }
 
-        model.addAttribute("error", "UsuÃ¡rio ou senha invÃ¡lidos.");
-        return "login"; // Retorna Ã  pÃ¡gina de login com erro
+        model.addAttribute("error", "Usuário ou senha inválidos.");
+        return "login";
     }
 
     @GetMapping("/")
     public String paginaInicial(HttpSession session) {
         if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login"; // Redireciona para login se nÃ£o estiver logado
+            return "redirect:/login";
         }
-        return "index"; // PÃ¡gina inicial para usuÃ¡rios autenticados
+        return "index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        authService.logout(session); // Utiliza o serviÃ§o de logout
-        return "redirect:/login"; // Redireciona para login
+        authService.logout(session);
+        return "redirect:/login";
     }
 
     @GetMapping("/usuarios")
     public String listarUsuarios(Model model, HttpSession session) {
         if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login"; // Redireciona para login se nÃ£o estiver logado
+            return "redirect:/login";
         }
 
         model.addAttribute("usuarios", userService.listarUsuarios());
-        return "usuario"; // Nome do arquivo HTML (usuarios.html)
+        return "usuario";
     }
 
     @GetMapping("/cadastrar")
     public String getUserAdd(Model model, HttpSession session) {
-        return "cadastro"; // Nome do arquivo HTML (cadastro.html)
+        return "cadastro";
     }
 }

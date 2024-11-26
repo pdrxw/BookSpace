@@ -7,23 +7,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
 
-    // Busca empréstimos pelo nome do cliente ou título do livro (ignorando maiúsculas/minúsculas)
+    // Busca emprÃ©stimos pelo nome do cliente ou tÃ­tulo do livro (ignorando maiÃºsculas/minÃºsculas)
     List<Emprestimo> findByClienteNomeContainingIgnoreCaseOrLivroTituloContainingIgnoreCase(
             String nomeCliente, String tituloLivro, Sort sort);
 
-    // Busca empréstimos pelo ID do cliente com ordenação
+    // Busca emprÃ©stimos pelo ID do cliente com ordenaÃ§Ã£o
     List<Emprestimo> findByClienteId(Long clienteId, Sort sort);
 
-    // Busca empréstimos pelo ID do livro com ordenação
+    // Busca emprÃ©stimos pelo ID do livro com ordenaÃ§Ã£o
     List<Emprestimo> findByLivroId(Long livroId, Sort sort);
 
-    // Busca empréstimos pelo status (disponível, emprestado, etc.) com ordenação
+    // Busca emprÃ©stimos pelo status (disponÃ­vel, emprestado, etc.) com ordenaÃ§Ã£o
     List<Emprestimo> findByStatus(String status, Sort sort);
 
-    // Método para busca customizada, por múltiplos campos, conforme necessário
+    // MÃ©todo para busca customizada, por mÃºltiplos campos, conforme necessÃ¡rio
     List<Emprestimo> findByClienteNomeContainingIgnoreCaseAndLivroTituloContainingIgnoreCase(
             String nomeCliente, String tituloLivro, Sort sort);
 
-    // Busca empréstimos ativos de um livro específico (livro não devolvido)
+    // Busca emprÃ©stimos ativos de um livro especÃ­fico (livro nÃ£o devolvido)
     List<Emprestimo> findByLivro_IdAndStatusNot(Long livroId, String status, Sort sort);
 }

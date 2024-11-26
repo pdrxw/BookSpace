@@ -14,14 +14,14 @@ public class EmprestimoService {
     private EmprestimoRepository emprestimoRepository;
 
     @Autowired
-    private LivroService livroService;  // ServiÁo para gerenciar livros
+    private LivroService livroService;  // Servi√ßo para gerenciar livros
 
-    // Listar todos os emprÈstimos
+    // Listar todos os empr√©stimos
     public List<Emprestimo> listarEmprestimos() {
         return emprestimoRepository.findAll();
     }
 
-    // MÈtodo para listar emprÈstimos ordenados de acordo com o critÈrio
+    // M√©todo para listar empr√©stimos ordenados de acordo com o crit√©rio
     public List<Emprestimo> listarEmprestimosOrdenados(String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -29,18 +29,18 @@ public class EmprestimoService {
         return emprestimoRepository.findAll(Sort.by(orderBy));
     }
 
-    // Novo mÈtodo para buscar emprÈstimos por cliente ou livro, com pesquisa parcial e ordenaÁ„o
+    // Novo m√©todo para buscar empr√©stimos por cliente ou livro, com pesquisa parcial e ordena√ß√£o
     public List<Emprestimo> buscarEmprestimosPorClienteOuLivro(String search, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
         }
 
-        // Busca emprÈstimos pelo nome do cliente ou tÌtulo do livro, com busca parcial e ignorando mai˙sculas/min˙sculas
+        // Busca empr√©stimos pelo nome do cliente ou t√≠tulo do livro, com busca parcial e ignorando mai√∫sculas/min√∫sculas
         return emprestimoRepository.findByClienteNomeContainingIgnoreCaseOrLivroTituloContainingIgnoreCase(
                 search, search, Sort.by(orderBy));
     }
 
-    // Buscar emprÈstimos por clienteId com pesquisa parcial e ordenaÁ„o
+    // Buscar empr√©stimos por clienteId com pesquisa parcial e ordena√ß√£o
     public List<Emprestimo> buscarEmprestimosPorClienteId(Long clienteId, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -49,7 +49,7 @@ public class EmprestimoService {
         return emprestimoRepository.findByClienteId(clienteId, Sort.by(orderBy));
     }
 
-    // Buscar emprÈstimos por livroId com pesquisa parcial e ordenaÁ„o
+    // Buscar empr√©stimos por livroId com pesquisa parcial e ordena√ß√£o
     public List<Emprestimo> buscarEmprestimosPorLivroId(Long livroId, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -58,7 +58,7 @@ public class EmprestimoService {
         return emprestimoRepository.findByLivroId(livroId, Sort.by(orderBy));
     }
 
-    // Buscar emprÈstimos por status
+    // Buscar empr√©stimos por status
     public List<Emprestimo> buscarEmprestimosPorStatus(String status, String orderBy) {
         if (orderBy == null || orderBy.trim().isEmpty()) {
             orderBy = "id"; // Default ordering by 'id'
@@ -67,18 +67,18 @@ public class EmprestimoService {
         return emprestimoRepository.findByStatus(status, Sort.by(orderBy));
     }
 
-    // Salvar ou atualizar um emprÈstimo
+    // Salvar ou atualizar um empr√©stimo
     public void salvarEmprestimo(Emprestimo emprestimo) {
         emprestimoRepository.save(emprestimo);
     }
 
-    // Buscar emprÈstimo por ID
+    // Buscar empr√©stimo por ID
     public Emprestimo buscarEmprestimoPorId(Long id) {
         Optional<Emprestimo> emprestimo = emprestimoRepository.findById(id);
-        return emprestimo.orElse(null); // Retorna o emprÈstimo ou null
+        return emprestimo.orElse(null); // Retorna o empr√©stimo ou null
     }
 
-    // Remover um emprÈstimo por ID
+    // Remover um empr√©stimo por ID
     public void removerEmprestimo(Long id) {
         emprestimoRepository.deleteById(id);
     }
@@ -92,23 +92,23 @@ public class EmprestimoService {
         }
     }
 
-    // Verifica se o livro j· est· emprestado (n„o devolvido)
+    // Verifica se o livro j√° est√° emprestado (n√£o devolvido)
     public boolean isLivroEmprestado(Long livroId, String orderBy) {
     if (orderBy == null || orderBy.trim().isEmpty()) {
-        orderBy = "dataRetirada";  // Definindo um valor padr„o de ordenaÁ„o pela data de retirada
+        orderBy = "dataRetirada";  // Definindo um valor padr√£o de ordena√ß√£o pela data de retirada
     }
 
-    // Busca emprÈstimos ativos de um livro especÌfico com status diferente de "disponivel" e ordena pelo par‚metro orderBy
+    // Busca empr√©stimos ativos de um livro espec√≠fico com status diferente de "disponivel" e ordena pelo par√¢metro orderBy
     List<Emprestimo> emprestimosAtivos = emprestimoRepository.findByLivro_IdAndStatusNot(livroId, "inativo", Sort.by(orderBy));
     
-    // Retorna verdadeiro se houver emprÈstimo ativo
+    // Retorna verdadeiro se houver empr√©stimo ativo
     return !emprestimosAtivos.isEmpty();
 }
 
 
 
     public List<Emprestimo> buscarEmprestimosPorCampos(String search, String orderBy) {
-        // MÈtodo n„o implementado - opcional, dependendo dos requisitos adicionais
+        // M√©todo n√£o implementado - opcional, dependendo dos requisitos adicionais
         throw new UnsupportedOperationException("Unimplemented method 'buscarEmprestimosPorCampos'");
     }
 }

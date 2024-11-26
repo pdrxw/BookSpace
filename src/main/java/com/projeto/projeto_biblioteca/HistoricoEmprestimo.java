@@ -18,7 +18,7 @@ public class HistoricoEmprestimo {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "emprestimo_id", nullable = false) // FK para o Empréstimo
+    @JoinColumn(name = "emprestimo_id", nullable = false) // FK para o EmprÃ©stimo
     private Emprestimo emprestimo;
 
     @ManyToOne
@@ -32,9 +32,9 @@ public class HistoricoEmprestimo {
     private String dataRetirada;  // Usando String, conforme a entidade Emprestimo
     private String dataDevolucaoPrevista;  // Usando String, conforme a entidade Emprestimo
     private String dataDevolucaoReal;  // Usando String, conforme a entidade Emprestimo
-    private double multa;  // Multa aplicada no histórico
+    private double multa;  // Multa aplicada no histÃ³rico
 
-    private String status;  // Status do empréstimo (ativo, finalizado, cancelado)
+    private String status;  // Status do emprÃ©stimo (ativo, finalizado, cancelado)
     
     // Getters e Setters
     public Long getId() {
@@ -108,20 +108,4 @@ public class HistoricoEmprestimo {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    // public Timestamp getCreatedAt() {
-    //     return createdAt;
-    // }
-
-    // public void setCreatedAt(Timestamp createdAt) {
-    //     this.createdAt = createdAt;
-    // }
-
-    // public Timestamp getUpdatedAt() {
-    //     return updatedAt;
-    // }
-
-    // public void setUpdatedAt(Timestamp updatedAt) {
-    //     this.updatedAt = updatedAt;
-    // }
 }

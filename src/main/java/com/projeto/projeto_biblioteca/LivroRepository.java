@@ -9,27 +9,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
-    // Método para buscar livro pelo título exato
+    // M todo para buscar livro pelo t tulo exato
     Livro findByTitulo(String titulo);
 
-    // Método para buscar livro pelo autor
+    // M todo para buscar livro pelo autor
     Livro findByAutor(String autor);
 
-    // Método para buscar livro pela categoria
+    // M todo para buscar livro pela categoria
     Livro findByCategoria(String categoria);
 
-    // Método para buscar livro pela editora
+    // M todo para buscar livro pela editora
     Livro findByEditora(String editora);
 
-    // Método para buscar livro pela data de admissão
+    // M todo para buscar livro pela data de admiss o
     Livro findByDataAdmissao(String dataAdmissao);
 
-    // Método para buscar livro pelo status
+    // M todo para buscar livro pelo status
     Livro findByStatus(String status);
 
-    // Novo método para buscar livros que contenham a string no título, autor, categoria ou editora,
-    // ignorando maiúsculas/minúsculas, e ordenando de acordo com o parâmetro 'Sort'
-    // Adicionar o campo status à busca por múltiplos termos
+    // Novo m todo para buscar livros que contenham a string no t tulo, autor, categoria ou editora,
+    // ignorando mai sculas/min sculas, e ordenando de acordo com o par metro 'Sort'
+    // Adicionar o campo status   busca por m ltiplos termos
     List<Livro> findByTituloContainingIgnoreCaseOrAutorContainingIgnoreCaseOrCategoriaContainingIgnoreCaseOrEditoraContainingIgnoreCaseOrStatusContainingIgnoreCase(
         String titulo, String autor, String categoria, String editora, String status, Sort sort);
 

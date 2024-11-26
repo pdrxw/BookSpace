@@ -81,17 +81,17 @@ public class ClienteController {
 
         if (clienteRepository.findByCpf(cpf) != null) { 
             model.addAttribute("error", "CPF já cadastrado."); 
-            return "cadastro-cliente"; // Retorna Ã  pÃ¡gina de cadastro com erro
+            return "cadastro-cliente"; // Retorna a página de cadastro com erro
         } // Verifica se o cliente existe
 
         if (clienteRepository.findByEmail(email) != null) {
             model.addAttribute("error", "E-mail já cadastrado.");
-            return "cadastro-cliente"; // Retorna Ã  pÃ¡gina de cadastro com erro
+            return "cadastro-cliente"; // Retorna a página de cadastro com erro
         }
 
         if (clienteRepository.findByTelefone(telefone) != null) {
             model.addAttribute("error", "Telefone já cadastrado.");
-            return "cadastro-cliente"; // Retorna Ã  pÃ¡gina de cadastro com erro
+            return "cadastro-cliente"; // Retorna a página de cadastro com erro
         }
 
         // Cria um novo cliente 

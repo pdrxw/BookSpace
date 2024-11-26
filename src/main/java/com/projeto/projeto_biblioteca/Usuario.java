@@ -59,7 +59,7 @@ public class Usuario {
         this.senha = senha;
     }
 
-    // Métodos adicionais
+    // MÃ©todos adicionais
     @Override
     public String toString() {
         return "Usuario{id=" + id + ", nome='" + nome + "', usuario='" + usuario + "', email='" + email + "'}";

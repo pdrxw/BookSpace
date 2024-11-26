@@ -21,41 +21,41 @@ public class LivroController {
     @Autowired
     private LivroService livroService;
 
-    // Listar livros com pesquisa e ordenação
+    // Listar livros com pesquisa e ordena  o
     @GetMapping
     public String listarLivros(
         @RequestParam(value = "order_by", defaultValue = "id") String orderBy,
-        @RequestParam(value = "search", required = false) String search,  // Recebe o parâmetro 'search' para a pesquisa
+        @RequestParam(value = "search", required = false) String search,  // Recebe o par metro 'search' para a pesquisa
         Model model, HttpSession session) {
         
         if (session.getAttribute("usuarioLogado") == null) {
-            return "redirect:/login"; // Redireciona para login se não estiver logado
+            return "redirect:/login"; // Redireciona para login se n o estiver logado
         }
 
         List<Livro> livros;
 
         if (search != null && !search.trim().isEmpty()) {
-            // Se houver valor em 'search', busca livros com múltiplos parâmetros
+            // Se houver valor em 'search', busca livros com m ltiplos par metros
             livros = livroService.buscarLivrosPorMultiplosTermos(search, orderBy);
         } else {
-            // Caso contrário, apenas lista os livros com a ordenação
+            // Caso contr rio, apenas lista os livros com a ordena  o
             livros = livroService.listarLivrosOrdenados(orderBy);
         }
 
         // Adiciona os livros na model
         model.addAttribute("livros", livros);
-        model.addAttribute("search", search);  // Para manter o valor da pesquisa na página
+        model.addAttribute("search", search);  // Para manter o valor da pesquisa na p gina
 
-        return "livros";  // Retorna a página de livros
+        return "livros";  // Retorna a p gina de livros
     }
 
-    // Página para o formulário de cadastro de livros
+    // P gina para o formul rio de cadastro de livros
     @GetMapping("/cadastro")
     public String cadastroLivro() {
-        return "cadastro-livro"; // Página HTML para cadastro de livro
+        return "cadastro-livro"; // P gina HTML para cadastro de livro
     }
 
-    // Método para cadastrar um novo livro
+    // M todo para cadastrar um novo livro
     @PostMapping("/cadastro")
     public String cadastrarLivro(
             @RequestParam String titulo,
@@ -78,25 +78,25 @@ public class LivroController {
             livroService.salvarLivro(novoLivro);
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", "Erro ao salvar o livro.");
-            return "cadastro-livro"; // Retorna à página de cadastro de livro com erro
+            return "cadastro-livro"; // Retorna   p gina de cadastro de livro com erro
         }
 
-        return "redirect:/livros"; // Redireciona para a lista de livros após o cadastro
+        return "redirect:/livros"; // Redireciona para a lista de livros ap s o cadastro
     }
 
-    // Método para exibir a página de edição de livro
+    // M todo para exibir a p gina de edi  o de livro
     @GetMapping("/editar/{id}")
     public String editarLivro(@PathVariable("id") Long id, Model model) {
         Livro livro = livroService.buscarLivroPorId(id);
         if (livro == null) {
-            model.addAttribute("error", "Livro não encontrado.");
-            return "redirect:/livros"; // Se o livro não for encontrado, redireciona para a lista
+            model.addAttribute("error", "Livro nÃ£o encontrado.");
+            return "redirect:/livros"; // Se o livro n o for encontrado, redireciona para a lista
         }
-        model.addAttribute("livro", livro); // Passa o livro para o formulário de edição
-        return "editar-livro"; // Página de edição de livro
+        model.addAttribute("livro", livro); // Passa o livro para o formul rio de edi  o
+        return "editar-livro"; // P gina de edi  o de livro
     }
 
-    // Método para atualizar o livro após a edição
+    // M todo para atualizar o livro ap s a edi  o
     @PostMapping("/editar/{id}")
     public String atualizarLivro(
             @PathVariable("id") Long id,
@@ -110,8 +110,8 @@ public class LivroController {
         
         Livro livro = livroService.buscarLivroPorId(id);
         if (livro == null) {
-            model.addAttribute("error", "Livro não encontrado.");
-            return "redirect:/livros"; // Se o livro não for encontrado, redireciona para a lista
+            model.addAttribute("error", "Livro nÃ£o encontrado.");
+            return "redirect:/livros"; // Se o livro n o for encontrado, redireciona para a lista
         }
 
         livro.setTitulo(titulo);
@@ -125,22 +125,22 @@ public class LivroController {
             livroService.salvarLivro(livro); // Atualiza o livro
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("error", "Erro ao atualizar o livro.");
-            return "editar-livro"; // Retorna à página de edição de livro com erro
+            return "editar-livro"; // Retorna   p gina de edi  o de livro com erro
         }
 
-        return "redirect:/livros"; // Redireciona para a lista de livros após a atualização
+        return "redirect:/livros"; // Redireciona para a lista de livros ap s a atualiza  o
     }
 
-    // Método para remover um livro
+    // M todo para remover um livro
     @PostMapping("/remover/{id}")
     public String removerLivro(@PathVariable("id") Long id, Model model) {
         try {
-            livroService.removerLivro(id); // Chama o serviço para remover o livro
+            livroService.removerLivro(id); // Chama o servi o para remover o livro
         } catch (Exception e) {
             model.addAttribute("error", "Erro ao remover o livro.");
             return "redirect:/livros"; // Se houver erro, redireciona para a lista
         }
 
-        return "redirect:/livros"; // Redireciona para a lista de livros após a remoção
+        return "redirect:/livros"; // Redireciona para a lista de livros ap s a remo  o
     }
 }
